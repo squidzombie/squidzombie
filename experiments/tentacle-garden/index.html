@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentacle Garden — SQUIDZOMBIE specimen 001</title>
+  <meta name="description" content="A generative art toy. Plant glowing tentacles; watch them grow and sway in the current.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪸</text></svg>">
+  <style>
+    :root {
+      --abyss: #050a12;
+      --ink: #dff7ef;
+      --ink-dim: #8fb3a9;
+      --biolume: #3dfbd8;
+      --zombie: #8aff5a;
+      --violet: #8a6cff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: radial-gradient(ellipse at 50% 120%, #0e1c2e 0%, var(--abyss) 65%);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      color: var(--ink);
+    }
+    #garden { position: fixed; inset: 0; cursor: crosshair; touch-action: none; }
+    .hud {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1.1rem 1.4rem;
+      pointer-events: none;
+    }
+    .hud a, .hud button { pointer-events: auto; }
+    .hud-left .tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      color: var(--violet);
+    }
+    .hud-left h1 {
+      font-family: "Rubik Glitch", monospace;
+      font-size: 1.5rem;
+      color: var(--biolume);
+      text-shadow: 0 0 24px rgba(61, 251, 216, 0.5);
+      letter-spacing: 0.04em;
+    }
+    .hud-left .hint {
+      color: var(--ink-dim);
+      font-size: 0.82rem;
+      margin-top: 0.3rem;
+    }
+    .hud-right { display: flex; gap: 0.6rem; align-items: center; }
+    .hud button {
+      font-family: inherit;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      color: var(--biolume);
+      background: rgba(61, 251, 216, 0.07);
+      border: 1px solid rgba(61, 251, 216, 0.25);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .hud button:hover { border-color: var(--biolume); background: rgba(61, 251, 216, 0.14); }
+    .hud button.on { color: var(--abyss); background: var(--zombie); border-color: var(--zombie); }
+    .back {
+      position: fixed;
+      bottom: 1.1rem; left: 1.4rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    .back:hover { color: var(--biolume); }
+    .count {
+      position: fixed;
+      bottom: 1.1rem; right: 1.4rem;
+      color: var(--ink-dim);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="garden"></canvas>
+
+  <div class="hud">
+    <div class="hud-left">
+      <div class="tag">SPECIMEN 001</div>
+      <h1>TENTACLE GARDEN</h1>
+      <div class="hint">click / drag to plant &middot; they do the rest</div>
+    </div>
+    <div class="hud-right">
+      <button id="auto">auto-grow: off</button>
+      <button id="clear">purge the garden</button>
+    </div>
+  </div>
+
+  <a class="back" href="../../">&larr; back to the surface</a>
+  <div class="count"><span id="count">0</span> SPECIMENS</div>
+
+  <script>
+    const canvas = document.getElementById("garden");
+    const ctx = canvas.getContext("2d");
+    const countEl = document.getElementById("count");
+
+    const PALETTE = [
+      { body: "61, 251, 216", tip: "#3dfbd8" },   // biolume teal
+      { body: "138, 255, 90", tip: "#8aff5a" },   // zombie green
+      { body: "138, 108, 255", tip: "#8a6cff" },  // violet
+      { body: "90, 216, 255", tip: "#5ad8ff" },   // ice blue
+    ];
+
+    const MAX_TENTACLES = 60;
+    const tentacles = [];
+    let autoGrow = false;
+    let autoTimer = 0;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function makeTentacle(x, y) {
+      const segCount = 34 + Math.floor(Math.random() * 30);
+      // grow generally upward-ish from the plant point, with personality
+      let angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.6;
+      let curl = (Math.random() - 0.5) * 0.14;          // persistent curl direction
+      const angles = [];
+      for (let i = 0; i < segCount; i++) {
+        angles.push(angle);
+        curl += (Math.random() - 0.5) * 0.05;           // curl drifts
+        curl = Math.max(-0.22, Math.min(0.22, curl));
+        angle += curl + (Math.random() - 0.5) * 0.12;   // plus jitter
+      }
+      return {
+        x, y, angles,
+        grown: 0,                                        // segments visible so far
+        growSpeed: 0.55 + Math.random() * 0.5,
+        segLen: 5 + Math.random() * 3.5,
+        baseWidth: 7 + Math.random() * 8,
+        color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+        swayAmp: 0.05 + Math.random() * 0.06,
+        swaySpeed: 0.9 + Math.random() * 0.9,
+        phase: Math.random() * Math.PI * 2,
+        alpha: 1,
+        dying: false,
+      };
+    }
+
+    function plant(x, y) {
+      tentacles.push(makeTentacle(x, y));
+      // over capacity: oldest living tentacle starts to fade
+      const alive = tentacles.filter(t => !t.dying);
+      if (alive.length > MAX_TENTACLES) alive[0].dying = true;
+    }
+
+    // Compute the centre-line points for a tentacle at time t (seconds).
+    function centreLine(t, time) {
+      const pts = [{ x: t.x, y: t.y }];
+      let px = t.x, py = t.y;
+      const n = Math.min(Math.floor(t.grown), t.angles.length);
+      for (let i = 0; i < n; i++) {
+        // sway grows toward the free end so the base stays planted
+        const sway = Math.sin(time * t.swaySpeed + t.phase + i * 0.28)
+                   * t.swayAmp * (i / t.angles.length);
+        const a = t.angles[i] + sway;
+        px += Math.cos(a) * t.segLen;
+        py += Math.sin(a) * t.segLen;
+        pts.push({ x: px, y: py });
+      }
+      return pts;
+    }
+
+    // Build a tapered polygon around the centre line and fill it.
+    function drawTentacle(t, time) {
+      const pts = centreLine(t, time);
+      if (pts.length < 3) return;
+
+      const left = [], right = [];
+      for (let i = 0; i < pts.length; i++) {
+        const w = (t.baseWidth * (1 - i / t.angles.length) + 0.6) / 2;
+        const prev = pts[Math.max(0, i - 1)];
+        const next = pts[Math.min(pts.length - 1, i + 1)];
+        const dx = next.x - prev.x, dy = next.y - prev.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len, ny = dx / len;
+        left.push({ x: pts[i].x + nx * w, y: pts[i].y + ny * w });
+        right.push({ x: pts[i].x - nx * w, y: pts[i].y - ny * w });
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(left[0].x, left[0].y);
+      for (const p of left) ctx.lineTo(p.x, p.y);
+      for (let i = right.length - 1; i >= 0; i--) ctx.lineTo(right[i].x, right[i].y);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(${t.color.body}, ${0.8 * t.alpha})`;
+      ctx.shadowColor = `rgba(${t.color.body}, ${0.9 * t.alpha})`;
+      ctx.shadowBlur = 14;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // suckers along the underside
+      ctx.fillStyle = `rgba(5, 10, 18, ${0.5 * t.alpha})`;
+      for (let i = 4; i < pts.length - 2; i += 4) {
+        const w = t.baseWidth * (1 - i / t.angles.length);
+        ctx.beginPath();
+        ctx.arc(pts[i].x, pts[i].y, Math.max(0.8, w * 0.18), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // glowing tip while growing, dimmer once grown
+      const tip = pts[pts.length - 1];
+      const growing = t.grown < t.angles.length;
+      ctx.beginPath();
+      ctx.arc(tip.x, tip.y, growing ? 4 : 2.4, 0, Math.PI * 2);
+      ctx.fillStyle = t.color.tip;
+      ctx.globalAlpha = (growing ? 1 : 0.7) * t.alpha;
+      ctx.shadowColor = t.color.tip;
+      ctx.shadowBlur = growing ? 22 : 10;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+    }
+
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const time = now / 1000;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = tentacles.length - 1; i >= 0; i--) {
+        const t = tentacles[i];
+        if (t.grown < t.angles.length) t.grown += t.growSpeed * dt * 60 * 0.4;
+        if (t.dying) {
+          t.alpha -= dt * 0.8;
+          if (t.alpha <= 0) { tentacles.splice(i, 1); continue; }
+        }
+        drawTentacle(t, time);
+      }
+
+      if (autoGrow) {
+        autoTimer -= dt;
+        if (autoTimer <= 0) {
+          plant(
+            canvas.width * (0.05 + Math.random() * 0.9),
+            canvas.height * (0.45 + Math.random() * 0.55)
+          );
+          autoTimer = 0.9 + Math.random() * 1.2;
+        }
+      }
+
+      countEl.textContent = tentacles.filter(t => !t.dying).length;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    // --- input: click and drag to plant --------------------------------
+    let planting = false;
+    let lastPlant = { x: -9999, y: -9999 };
+
+    function pointerPlant(x, y) {
+      if (Math.hypot(x - lastPlant.x, y - lastPlant.y) < 46) return;
+      lastPlant = { x, y };
+      plant(x, y);
+    }
+
+    canvas.addEventListener("pointerdown", (e) => {
+      planting = true;
+      lastPlant = { x: -9999, y: -9999 };
+      pointerPlant(e.clientX, e.clientY);
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (planting) pointerPlant(e.clientX, e.clientY);
+    });
+    window.addEventListener("pointerup", () => { planting = false; });
+
+    // --- controls ------------------------------------------------------
+    const autoBtn = document.getElementById("auto");
+    autoBtn.addEventListener("click", () => {
+      autoGrow = !autoGrow;
+      autoTimer = 0;
+      autoBtn.textContent = `auto-grow: ${autoGrow ? "on" : "off"}`;
+      autoBtn.classList.toggle("on", autoGrow);
+    });
+
+    document.getElementById("clear").addEventListener("click", () => {
+      for (const t of tentacles) t.dying = true;
+    });
+
+    // a welcoming committee so the page isn't empty on arrival
+    for (let i = 0; i < 5; i++) {
+      plant(
+        canvas.width * (0.15 + Math.random() * 0.7),
+        canvas.height * (0.55 + Math.random() * 0.4)
+      );
+    }
+  </script>
+</body>
+</html>
