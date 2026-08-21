@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abyssal Sonar — SQUIDZOMBIE specimen 002</title>
+  <meta name="description" content="A sonar scope that echoes off your keystrokes and clicks. Every key has its own bearing and its own ping. Sometimes the deep answers back.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+  <style>
+    :root {
+      --abyss: #050a12;
+      --ink: #dff7ef;
+      --ink-dim: #8fb3a9;
+      --biolume: #3dfbd8;
+      --zombie: #8aff5a;
+      --violet: #8a6cff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: radial-gradient(ellipse at 50% 50%, #081524 0%, var(--abyss) 70%);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      color: var(--ink);
+    }
+    #scope { position: fixed; inset: 0; cursor: crosshair; touch-action: none; }
+    .hud {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1.1rem 1.4rem;
+      pointer-events: none;
+    }
+    .hud a, .hud button { pointer-events: auto; }
+    .hud-left .tag { font-size: 0.68rem; letter-spacing: 0.24em; color: var(--violet); }
+    .hud-left h1 {
+      font-family: "Rubik Glitch", monospace;
+      font-size: 1.5rem;
+      color: var(--biolume);
+      text-shadow: 0 0 24px rgba(61, 251, 216, 0.5);
+      letter-spacing: 0.04em;
+    }
+    .hud-left .hint { color: var(--ink-dim); font-size: 0.82rem; margin-top: 0.3rem; }
+    .hud-right { display: flex; gap: 0.6rem; }
+    .hud button {
+      font-family: inherit;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      color: var(--biolume);
+      background: rgba(61, 251, 216, 0.07);
+      border: 1px solid rgba(61, 251, 216, 0.25);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .hud button:hover { border-color: var(--biolume); background: rgba(61, 251, 216, 0.14); }
+    .back {
+      position: fixed;
+      bottom: 1.1rem; left: 1.4rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    .back:hover { color: var(--biolume); }
+    .count {
+      position: fixed;
+      bottom: 1.1rem; right: 1.4rem;
+      color: var(--ink-dim);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scope"></canvas>
+
+  <div class="hud">
+    <div class="hud-left">
+      <div class="tag">SPECIMEN 002</div>
+      <h1>ABYSSAL SONAR</h1>
+      <div class="hint">type or click &middot; the deep echoes back</div>
+    </div>
+    <div class="hud-right">
+      <button id="sound">sound: on</button>
+      <button id="clear">scrub contacts</button>
+    </div>
+  </div>
+
+  <a class="back" href="../../">&larr; back to the surface</a>
+  <div class="count"><span id="count">0</span> CONTACTS</div>
+
+  <script>
+    const canvas = document.getElementById("scope");
+    const ctx = canvas.getContext("2d");
+    const countEl = document.getElementById("count");
+
+    let W, H, CX, CY, R;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      CX = W / 2; CY = H / 2;
+      R = Math.min(W, H) * 0.42;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // --- audio: each key has its own ping -----------------------------
+    let audioCtx = null;
+    let soundOn = true;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        catch (e) { audioCtx = null; }
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    }
+
+    function ping(freq, vol = 0.12) {
+      if (!soundOn || !audioCtx) return;
+      const t0 = audioCtx.currentTime;
+      // main ping + a fainter delayed echo, like a return off the seafloor
+      for (const [delay, gain] of [[0, vol], [0.28, vol * 0.35]]) {
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, t0 + delay);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.82, t0 + delay + 0.5);
+        g.gain.setValueAtTime(0, t0 + delay);
+        g.gain.linearRampToValueAtTime(gain, t0 + delay + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + delay + 0.6);
+        osc.connect(g).connect(audioCtx.destination);
+        osc.start(t0 + delay);
+        osc.stop(t0 + delay + 0.65);
+      }
+    }
+
+    function rumble() {
+      if (!soundOn || !audioCtx) return;
+      const t0 = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(52, t0);
+      osc.frequency.linearRampToValueAtTime(38, t0 + 2.5);
+      g.gain.setValueAtTime(0, t0);
+      g.gain.linearRampToValueAtTime(0.09, t0 + 0.6);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 3);
+      osc.connect(g).connect(audioCtx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 3.1);
+    }
+
+    // --- contacts ------------------------------------------------------
+    // Every key gets a stable bearing + range, so typing is learnable:
+    // the same letter always pings the same spot.
+    const contacts = [];
+    const rings = [];          // expanding echo rings
+    const MAX_CONTACTS = 90;
+    const LIFE = 24;           // seconds before a contact fades away
+
+    function hash(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function addContact(angle, radius, label, big = false) {
+      contacts.push({
+        angle, radius, label, big,
+        born: performance.now() / 1000,
+        bright: 1,                    // lit on arrival, then relit by the beam
+        drift: big ? (Math.random() - 0.5) * 0.04 : 0,
+      });
+      rings.push({ angle, radius, r: 0, alpha: 0.8, big });
+      if (contacts.filter(c => !c.big).length > MAX_CONTACTS) {
+        const idx = contacts.findIndex(c => !c.big);
+        if (idx !== -1) contacts.splice(idx, 1);
+      }
+    }
+
+    function keyContact(ch) {
+      const h1 = hash(ch);
+      const h2 = hash(ch + "salt");
+      const angle = (h1 % 3600) / 3600 * Math.PI * 2;
+      const radius = R * (0.22 + (h2 % 1000) / 1000 * 0.68);
+      addContact(angle, radius, ch === " " ? "␣" : ch);
+      ping(360 + (h1 % 14) * 42);
+    }
+
+    // --- something else is down there ---------------------------------
+    let nextVisitor = performance.now() / 1000 + 14 + Math.random() * 20;
+
+    function maybeVisit(now) {
+      if (now < nextVisitor) return;
+      nextVisitor = now + 25 + Math.random() * 35;
+      addContact(Math.random() * Math.PI * 2, R * (0.5 + Math.random() * 0.4), "???", true);
+      rumble();
+    }
+
+    // --- drawing -------------------------------------------------------
+    const SWEEP_PERIOD = 4.2;   // seconds per revolution
+
+    function polar(angle, radius) {
+      return { x: CX + Math.cos(angle) * radius, y: CY + Math.sin(angle) * radius };
+    }
+
+    function drawScopeFace() {
+      // face
+      ctx.beginPath();
+      ctx.arc(CX, CY, R, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(6, 16, 26, 0.85)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(61, 251, 216, 0.4)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // range rings
+      ctx.strokeStyle = "rgba(61, 251, 216, 0.12)";
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.arc(CX, CY, R * i / 4, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // crosshairs
+      ctx.beginPath();
+      ctx.moveTo(CX - R, CY); ctx.lineTo(CX + R, CY);
+      ctx.moveTo(CX, CY - R); ctx.lineTo(CX, CY + R);
+      ctx.stroke();
+
+      // bearing ticks every 30 degrees
+      ctx.strokeStyle = "rgba(61, 251, 216, 0.3)";
+      for (let d = 0; d < 360; d += 30) {
+        const a = d * Math.PI / 180;
+        const p1 = polar(a, R);
+        const p2 = polar(a, R - 8);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    }
+
+    function drawSweep(beamAngle) {
+      if (ctx.createConicGradient) {
+        const grad = ctx.createConicGradient(beamAngle - Math.PI * 0.42, CX, CY);
+        grad.addColorStop(0, "rgba(61, 251, 216, 0)");
+        grad.addColorStop(0.38, "rgba(61, 251, 216, 0.16)");
+        grad.addColorStop(0.42, "rgba(61, 251, 216, 0)");
+        grad.addColorStop(1, "rgba(61, 251, 216, 0)");
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(CX, CY, R, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = grad;
+        ctx.fillRect(CX - R, CY - R, R * 2, R * 2);
+        ctx.restore();
+      }
+      // leading edge
+      const tip = polar(beamAngle, R);
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(tip.x, tip.y);
+      ctx.strokeStyle = "rgba(61, 251, 216, 0.9)";
+      ctx.lineWidth = 2;
+      ctx.shadowColor = "rgba(61, 251, 216, 0.9)";
+      ctx.shadowBlur = 12;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    function angleDelta(a, b) {
+      let d = (a - b) % (Math.PI * 2);
+      if (d > Math.PI) d -= Math.PI * 2;
+      if (d < -Math.PI) d += Math.PI * 2;
+      return d;
+    }
+
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const t = now / 1000;
+      const beamAngle = (t / SWEEP_PERIOD) * Math.PI * 2 % (Math.PI * 2);
+
+      ctx.clearRect(0, 0, W, H);
+      drawScopeFace();
+      drawSweep(beamAngle);
+
+      // echo rings
+      for (let i = rings.length - 1; i >= 0; i--) {
+        const ring = rings[i];
+        ring.r += dt * (ring.big ? 55 : 90);
+        ring.alpha -= dt * (ring.big ? 0.35 : 0.7);
+        if (ring.alpha <= 0) { rings.splice(i, 1); continue; }
+        const p = polar(ring.angle, ring.radius);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, ring.r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${ring.big ? "138, 108, 255" : "61, 251, 216"}, ${ring.alpha})`;
+        ctx.lineWidth = ring.big ? 2.5 : 1.5;
+        ctx.stroke();
+      }
+
+      // contacts
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      for (let i = contacts.length - 1; i >= 0; i--) {
+        const c = contacts[i];
+        const age = t - c.born;
+        const lifeLeft = c.big ? 1 - age / 16 : 1 - age / LIFE;
+        if (lifeLeft <= 0) { contacts.splice(i, 1); continue; }
+
+        c.angle += c.drift * dt;
+        // the beam relights contacts as it passes
+        if (Math.abs(angleDelta(beamAngle, c.angle)) < 0.06) {
+          c.bright = 1;
+          if (c.big) rings.push({ angle: c.angle, radius: c.radius, r: 0, alpha: 0.5, big: true });
+        }
+        c.bright = Math.max(0.12, c.bright - dt * 0.35);
+
+        const p = polar(c.angle, c.radius);
+        const a = c.bright * Math.min(1, lifeLeft * 3);
+        const color = c.big ? "138, 108, 255" : "138, 255, 90";
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, c.big ? 9 : 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, ${a})`;
+        ctx.shadowColor = `rgba(${color}, ${a})`;
+        ctx.shadowBlur = c.big ? 24 : 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.font = `${c.big ? 15 : 12}px "Space Grotesk", monospace`;
+        ctx.fillStyle = `rgba(223, 247, 239, ${a * 0.9})`;
+        ctx.fillText(c.label, p.x, p.y - (c.big ? 18 : 12));
+      }
+
+      maybeVisit(t);
+      countEl.textContent = contacts.length;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    // --- input ---------------------------------------------------------
+    window.addEventListener("keydown", (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      ensureAudio();
+      if (e.key === "Escape") {
+        contacts.length = 0;
+        return;
+      }
+      if (e.key.length === 1) {
+        e.preventDefault();
+        keyContact(e.key.toLowerCase());
+      }
+    });
+
+    canvas.addEventListener("pointerdown", (e) => {
+      ensureAudio();
+      const dx = e.clientX - CX, dy = e.clientY - CY;
+      const angle = Math.atan2(dy, dx);
+      const radius = Math.min(Math.hypot(dx, dy), R * 0.95);
+      addContact(angle, radius, "✕");
+      ping(300 + (radius / R) * 400);
+    });
+
+    // --- controls ------------------------------------------------------
+    const soundBtn = document.getElementById("sound");
+    soundBtn.addEventListener("click", () => {
+      soundOn = !soundOn;
+      if (soundOn) ensureAudio();
+      soundBtn.textContent = `sound: ${soundOn ? "on" : "off"}`;
+    });
+
+    document.getElementById("clear").addEventListener("click", () => {
+      contacts.length = 0;
+      rings.length = 0;
+    });
+  </script>
+</body>
+</html>
