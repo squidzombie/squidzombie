@@ -10,6 +10,9 @@ Risen from the deep. Expect it to mutate.
 - `js/main.js` — bioluminescent particle canvas + cursor-tracking squid eyes
 - `experiments/` — each experiment gets its own folder with its own `index.html`,
   then gets a card on the landing page
+- `experiments/slimeball/` — build output of SLIMEBALL, published from the
+  private `SlimeBall` repo with `npm run deploy:site`. Don't hand-edit: every
+  deploy replaces it. Unlisted (no landing card) while in playtesting.
 
 ## Running locally
 
