@@ -12,7 +12,7 @@ Risen from the deep. Expect it to mutate.
   then gets a card on the landing page
 - `experiments/slimeball/` — build output of SLIMEBALL, published from the
   private `SlimeBall` repo with `npm run deploy:site`. Don't hand-edit: every
-  deploy replaces it. Unlisted (no landing card) while in playtesting.
+  deploy replaces it. Its landing card (SPECIMEN 004) lives in `index.html`.
 
 ## Running locally
 
