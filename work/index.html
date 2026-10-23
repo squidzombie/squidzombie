@@ -49,49 +49,107 @@
           </div>
         </div>
 
-        <div class="shots" aria-label="Sable Budget screenshots">
-          <img src="sable/screen-1.jpg" width="460" height="999" loading="lazy" alt="Home screen for August 2026: $826 left of $1,350, a $55 per day pace, and today's entries">
-          <img src="sable/screen-2.jpg" width="460" height="999" loading="lazy" alt="New entry keypad logging $30 for Thai takeout under Eating out">
-          <img src="sable/screen-3.jpg" width="460" height="999" loading="lazy" alt="Budgets screen with category envelopes for groceries, eating out, transport and more, 39% spent">
-          <img src="sable/screen-4.jpg" width="460" height="999" loading="lazy" alt="Savings screen showing $2,940 saved across goals like an emergency fund and a trip to Lisbon">
-          <img src="sable/screen-5.jpg" width="460" height="999" loading="lazy" alt="Reminders screen with recurring bills like rent and one-time tasks">
-          <img src="sable/screen-6.jpg" width="460" height="999" loading="lazy" alt="Appearance screen offering three moods: Warm, Minimal, and Bold">
+        <!-- Screenshot showcase: 3D coverflow, driven by js/work.js -->
+        <div class="showcase" data-showcase>
+          <div class="showcase-glow" aria-hidden="true"><img alt=""><img alt=""></div>
+          <div class="showcase-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Sable Budget screenshots. Use the left and right arrow keys to flip through.">
+            <figure class="slide" data-caption="Home: what's left this month, and per day">
+              <div class="slide-card"><img src="sable/screen-1.jpg" width="460" height="999" draggable="false" alt="Home screen for August 2026: $826 left of $1,350, a $55 per day pace, and today's entries"></div>
+            </figure>
+            <figure class="slide" data-caption="Log spending in seconds on a big keypad">
+              <div class="slide-card"><img src="sable/screen-2.jpg" width="460" height="999" draggable="false" alt="New entry keypad logging $30 for Thai takeout under Eating out"></div>
+            </figure>
+            <figure class="slide" data-caption="Envelopes that fill as you spend">
+              <div class="slide-card"><img src="sable/screen-3.jpg" width="460" height="999" draggable="false" alt="Budgets screen with category envelopes for groceries, eating out, transport and more, 39% spent"></div>
+            </figure>
+            <figure class="slide" data-caption="Savings buckets for what you're building toward">
+              <div class="slide-card"><img src="sable/screen-4.jpg" width="460" height="999" draggable="false" alt="Savings screen showing $2,940 saved across goals like an emergency fund and a trip to Lisbon"></div>
+            </figure>
+            <figure class="slide" data-caption="Bills and tasks that actually repeat">
+              <div class="slide-card"><img src="sable/screen-5.jpg" width="460" height="999" draggable="false" alt="Reminders screen with recurring bills like rent and one-time tasks"></div>
+            </figure>
+            <figure class="slide" data-caption="Pick a mood: Warm, Minimal, or Bold">
+              <div class="slide-card"><img src="sable/screen-6.jpg" width="460" height="999" draggable="false" alt="Appearance screen offering three moods: Warm, Minimal, and Bold"></div>
+            </figure>
+          </div>
+          <button class="showcase-nav prev" type="button" aria-label="Previous screenshot">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="showcase-nav next" type="button" aria-label="Next screenshot">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="showcase-foot">
+            <div>
+              <div class="showcase-count" aria-hidden="true">01 / 06</div>
+              <p class="showcase-caption" aria-live="polite"></p>
+            </div>
+            <div class="showcase-dots"></div>
+          </div>
         </div>
 
-        <div class="project-cols">
-          <div>
-            <h4>What it does</h4>
-            <ul>
-              <li>Monthly budget with a calm "what's left · per day" pace</li>
-              <li>Category envelopes that fill as you spend</li>
-              <li>Savings buckets for the things you're building toward</li>
-              <li>Bill and task reminders that actually repeat</li>
-              <li>A month in review: top categories and one gentle note</li>
-            </ul>
+        <h4 class="project-label">What it does</h4>
+        <div class="feature-grid">
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="1.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/><circle cx="6" cy="18" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="18" cy="18" r="1.4"/></svg>
+            <h5>Log in seconds</h5>
+            <p>A big keypad for logging by hand. That tiny moment of attention is the whole method.</p>
           </div>
-          <div class="refuses">
-            <h4>What it refuses to do</h4>
-            <ul>
-              <li>No bank or card connections, ever</li>
-              <li>No account, no sign-in, no cloud</li>
-              <li>No analytics, trackers, or ads; zero network calls</li>
-              <li>No subscription; backup export and import stay free</li>
-              <li>App Store privacy label: Data Not Collected</li>
-            </ul>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 16a8.5 8.5 0 0 1 17 0"/><path d="M12 16l4.5-5"/><circle cx="12" cy="16" r="1.2"/></svg>
+            <h5>A calm pace</h5>
+            <p>What's left this month, and what's left per day. No guilt, just the number.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3.5 8l8.5 6 8.5-6"/></svg>
+            <h5>Envelopes</h5>
+            <p>Category envelopes that fill as you spend, so you see each budget at a glance.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8"/><path d="M9 3v3l-3 4v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-9l-3-4V3"/><path d="M6 14h12"/></svg>
+            <h5>Savings buckets</h5>
+            <p>Set aside money for the things you're building toward, and watch them fill.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>
+            <h5>Reminders that repeat</h5>
+            <p>Bills and tasks that actually come back around, with gentle notifications.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7.5 15h4"/></svg>
+            <h5>Month in review</h5>
+            <p>Your top categories and one gentle note. No charts screaming at you.</p>
           </div>
         </div>
 
-        <div class="project-built">
-          <h4>How it's built</h4>
-          <p>Logging spending by hand is the whole method: that small moment of attention is what makes people notice what they spend. Privacy is a hard rule, not a setting. Everything lives in an encrypted database on the phone, there's no backend at all, and the app works fully in airplane mode. Backups are passphrase-encrypted files you can restore on any phone.</p>
-          <ul class="chips">
-            <li>Expo</li>
-            <li>React Native</li>
-            <li>TypeScript</li>
-            <li>Encrypted SQLite (SQLCipher)</li>
-            <li>Face ID lock</li>
+        <div class="refusal">
+          <div class="refusal-badge">
+            <span class="refusal-kicker">App Store privacy label</span>
+            <strong>Data Not Collected</strong>
+            <span class="refusal-kicker">What it refuses to do</span>
+          </div>
+          <ul class="refusal-list">
+            <li>No bank or card connections, ever</li>
+            <li>No account, sign-in, or cloud</li>
+            <li>No analytics, trackers, or ads</li>
             <li>Zero network calls</li>
+            <li>No subscription, ever</li>
           </ul>
+        </div>
+
+        <h4 class="project-label">How it's built</h4>
+        <div class="built">
+          <div class="built-story">
+            <p>Sable is for people who'd rather feel their spending than automate it. Logging by hand is the point: that small moment of attention is what makes you notice where the money goes.</p>
+            <p>Privacy is a hard rule, not a setting. Everything lives in an encrypted database on the phone, there's no backend at all, and backups are files that only your passphrase can open, restorable on any phone.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Platform</dt><dd>iPhone &middot; iOS 16.4+</dd></div>
+            <div><dt>Stack</dt><dd>Expo &middot; React Native &middot; TypeScript</dd></div>
+            <div><dt>Storage</dt><dd>Encrypted SQLite (SQLCipher), on device only</dd></div>
+            <div><dt>Security</dt><dd>Face ID lock &middot; passphrase-encrypted backups</dd></div>
+            <div><dt>Network</dt><dd>None. Works fully in airplane mode</dd></div>
+            <div><dt>Released</dt><dd>August 2026</dd></div>
+          </dl>
         </div>
 
         <div class="cta-row project-ctas">
@@ -113,5 +171,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/work.js"></script>
 </body>
 </html>
