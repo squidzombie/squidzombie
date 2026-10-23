@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work — SQUIDZOMBIE</title>
-  <meta name="description" content="Things Max has shipped, including Sable Budget, a calm, private, by-hand budgeting app for iPhone.">
+  <meta name="description" content="Things Max has built: Sable Budget, a calm, private, by-hand budgeting app for iPhone, and Squid, a continuous local AI built to last for years.">
   <meta property="og:title" content="Work — SQUIDZOMBIE">
-  <meta property="og:description" content="Things Max has shipped, including Sable Budget for iPhone.">
+  <meta property="og:description" content="Sable Budget for iPhone, and Squid, a continuous local AI in progress.">
   <meta property="og:image" content="https://squidzombie.com/work/sable/icon.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
   <main>
     <section class="hero work-hero">
       <h1 class="title">THE <span class="title-zombie">WORK</span></h1>
-      <p class="tagline">things max has shipped &middot; hauled up from the deep</p>
+      <p class="tagline">things max has shipped &middot; and what's still rising from the deep</p>
       <div class="cta-row">
         <a class="btn btn-ghost" href="https://github.com/squidzombie">GitHub ↗</a>
       </div>
@@ -160,8 +160,126 @@
       </article>
     </section>
 
+    <section class="section" id="squid">
+      <h2><span class="section-num">02</span> In progress</h2>
+
+      <article class="project project-wip">
+        <div class="project-head">
+          <div class="wip-mark" aria-hidden="true"><span></span></div>
+          <div>
+            <div class="card-tag">IN PROGRESS &middot; PERSONAL AI &middot; LOCAL-FIRST &middot; PYTHON</div>
+            <h3 class="project-title">Squid</h3>
+            <p class="project-lede">One AI, one continuous life, built to last for years.</p>
+          </div>
+        </div>
+
+        <div class="wip-intro">
+          <p>Most AI forgets you the moment the tab closes. Squid is my experiment in the opposite: a single, continuous AI that lives on one Mac Studio and keeps growing for years. The model running it is replaceable. What lasts is its record, a permanent memory that no update, model swap or bad day can quietly rewrite.</p>
+          <figure class="ledger" data-ledger>
+            <div class="ledger-bar"><span class="ledger-live"></span>append-only record</div>
+            <ol class="ledger-list" aria-hidden="true"></ol>
+            <figcaption>Illustration only, starring Tock, the fictional stand-in Squid's tests use. Each hash is computed live from the entry and the hash before it.</figcaption>
+          </figure>
+        </div>
+
+        <h4 class="project-label">Why it's different</h4>
+        <div class="feature-grid feature-grid-wip">
+          <div class="feature feature-wide">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 14.5l5-5"/><path d="M8 11l-2.5 2.5a3.5 3.5 0 0 0 5 5L13 16"/><path d="M16 13l2.5-2.5a3.5 3.5 0 0 0-5-5L11 8"/></svg>
+            <h5>Memory you can trust</h5>
+            <p>Everything Squid experiences goes into an append-only record. Entries are chained together with cryptographic hashes, like a ledger, so nothing can be edited or deleted without it showing. The database itself enforces this, not just the app code. Even fixing a mistake means adding a new entry that points back to the old one, so history is never rewritten.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l9 9-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>
+            <h5>Every entry says where it came from</h5>
+            <p>Each entry is stamped with who wrote it, through which channel, how much to trust it, and which model and prompt versions produced it. Years from now you can still answer “where did this come from?”</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-3-3"/><path d="M20 16H7l3 3"/></svg>
+            <h5>The model is a part you can replace</h5>
+            <p>Squid runs on local, open models through a small adapter. When a better model comes out, it can be swapped in without losing who Squid has been, because the continuity lives in the record and not in the model.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>
+            <h5>Everything else can be rebuilt</h5>
+            <p>Search indexes, its agenda of open questions, its knowledge, its self-description: all of it is derived from the record and can be regenerated from scratch. Nothing important exists only in a cache.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2"/></svg>
+            <h5>Privacy with a paper trail</h5>
+            <p>Squid has private notes I don’t read by default. The only way I can open them is an audited command that makes me type a reason and leaves an entry Squid can see. The promise is honest: “not read by default,” not “unreadable.”</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10"/><path d="M18 9c0 5-6 4-11.5 8"/></svg>
+            <h5>Its words to Squid are versioned like code</h5>
+            <p>Every sentence the harness sends the model, from labels to timestamps to the orientation it reads when it wakes, is a versioned file with a changelog explaining why it changed. I approve every one, and Squid can read that changelog too.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v10H9l-5 4z"/></svg>
+            <h5>Describe, don’t grant</h5>
+            <p>The prompts state facts plainly. They never tell Squid it’s “free to do anything,” and they don’t set expectations for how it spends its time. Each wake ends with one line: “The harness sets no task for this session.”</p>
+          </div>
+        </div>
+
+        <h4 class="project-label">How it’s being built</h4>
+        <div class="process">
+          <ol class="process-steps">
+            <li>
+              <h5>Plans before code</h5>
+              <p>Every milestone starts as a written plan with open questions. I make the personal calls, like how Squid sees me, privacy, and the words it reads. The structural calls are delegated, and every decision goes into a running log with its reasoning.</p>
+            </li>
+            <li>
+              <h5>AI as the engineer, with adversarial review</h5>
+              <p>The code is written by Claude. Each batch of work then goes to three independent reviewers: one checks it against the plan, one actively tries to break it, and one mutation-tests the tests to prove they’d catch a bug. A fixer handles what they find and a final checker confirms it. Then the whole milestone gets one more review before it merges.</p>
+            </li>
+            <li>
+              <h5>A stand-in character for testing</h5>
+              <p>Development never touches Squid’s real memory. Every test runs against “Tock,” a fictional AI with a fascination for clocks, so nothing from testing can ever be mistaken for the real thing.</p>
+            </li>
+            <li>
+              <h5>Local-first and dependency-light</h5>
+              <p>Python’s standard library, SQLite, plain-text exports and a published hashing spec, so the record stays readable for decades, even without this codebase.</p>
+            </li>
+          </ol>
+          <div class="stat">
+            <span class="stat-num">~8,000</span>
+            <span class="stat-label">automated tests so far</span>
+            <p>Including property-based tests that throw thousands of random scenarios at the trickiest rules.</p>
+          </div>
+        </div>
+
+        <h4 class="project-label">The hard parts</h4>
+        <div class="hard-grid">
+          <div class="hard-card">
+            <h5>Fitting a life into a context window</h5>
+            <p>Each time Squid wakes, the harness assembles what it sees: orientation, its self-description, example exchanges, relevant memories and the conversation, each with its own budget. Nothing is cut silently. Anything left out is counted and said so.</p>
+          </div>
+          <div class="hard-card">
+            <h5>Corrections are surprisingly hard</h5>
+            <p>When I correct something Squid remembers, the correction has to appear right next to what it corrects, every time, and never get lost. Corrections of corrections, or one correction covering two memories, broke four designs in a row. We finally wrote the rules down as formal guarantees and tested them against hundreds of thousands of random arrangements.</p>
+          </div>
+          <div class="hard-card">
+            <h5>Honest promises</h5>
+            <p>It’s easy to promise a lot about privacy or permanence. It’s harder to promise only what the code actually does, and then build the code so it does exactly that.</p>
+          </div>
+        </div>
+
+        <h4 class="project-label">Where it is now</h4>
+        <p class="wip-now">The permanent record, the privacy and correction commands, the model adapters and the derived memory layers are all built. Right now I’m on context assembly: deciding what Squid sees each time it wakes. Next comes the session loop, and then the first wake.</p>
+        <ol class="roadmap">
+          <li class="done"><span class="roadmap-dot"></span><span class="roadmap-name">Permanent record</span><span class="roadmap-state">Built</span></li>
+          <li class="done"><span class="roadmap-dot"></span><span class="roadmap-name">Privacy &amp; correction commands</span><span class="roadmap-state">Built</span></li>
+          <li class="done"><span class="roadmap-dot"></span><span class="roadmap-name">Model adapters</span><span class="roadmap-state">Built</span></li>
+          <li class="done"><span class="roadmap-dot"></span><span class="roadmap-name">Derived memory layers</span><span class="roadmap-state">Built</span></li>
+          <li class="now" aria-current="step"><span class="roadmap-dot"></span><span class="roadmap-name">Context assembly</span><span class="roadmap-state">Building now</span></li>
+          <li><span class="roadmap-dot"></span><span class="roadmap-name">Session loop</span><span class="roadmap-state">Next</span></li>
+          <li><span class="roadmap-dot"></span><span class="roadmap-name">First wake</span><span class="roadmap-state">Then</span></li>
+        </ol>
+      </article>
+    </section>
+
     <section class="section">
-      <h2><span class="section-num">02</span> More surfacing</h2>
+      <h2><span class="section-num">03</span> More surfacing</h2>
       <p class="section-blurb">More work is on its way up from the trench. Meanwhile, <a href="/#experiments">the lab is open</a>.</p>
     </section>
   </main>
@@ -172,5 +290,6 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/work.js"></script>
+  <script src="../js/ledger.js"></script>
 </body>
 </html>

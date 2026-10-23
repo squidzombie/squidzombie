@@ -665,3 +665,471 @@ body {
   .slide, .slide-card, .showcase-glow img, .showcase-dot { transition: none; }
   .showcase-caption.swap { animation: none; }
 }
+
+/* ── work page: in-progress project (Squid) ─────────────────────── */
+/* Sable wears the site's teal; Squid wears its violet. */
+
+.project-wip {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(138, 108, 255, 0.12), transparent 55%),
+    var(--card);
+  border-color: rgba(138, 108, 255, 0.25);
+}
+
+.project-wip .card-tag { color: var(--violet); }
+
+.wip-mark {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 25px;
+  border: 1px solid rgba(138, 108, 255, 0.35);
+  background: radial-gradient(circle at 50% 42%, rgba(138, 108, 255, 0.35), rgba(10, 18, 32, 0.95) 70%);
+  box-shadow: 0 0 32px rgba(138, 108, 255, 0.25);
+}
+
+/* a slow pulse: something alive, mid-thought */
+.wip-mark span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #ffffff, var(--biolume) 42%, #1a7a66);
+  animation: wip-breathe 3.4s ease-in-out infinite;
+}
+
+@keyframes wip-breathe {
+  0%, 100% { transform: scale(0.86); box-shadow: 0 0 12px rgba(61, 251, 216, 0.45); }
+  50%      { transform: scale(1);    box-shadow: 0 0 36px rgba(61, 251, 216, 0.9); }
+}
+
+.wip-intro {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 1.75rem;
+}
+
+.wip-intro > p { color: var(--ink-dim); font-size: 1.02rem; line-height: 1.8; }
+
+/* ── the illustrated ledger ── */
+
+.ledger {
+  margin: 0;
+  padding: 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(138, 108, 255, 0.3);
+  background: rgba(5, 10, 18, 0.78);
+  box-shadow: inset 0 0 36px rgba(138, 108, 255, 0.08);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.74rem;
+}
+
+.ledger-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--ink-dim);
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.ledger-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--zombie);
+  box-shadow: 0 0 8px var(--zombie);
+  animation: ledger-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes ledger-blink { 50% { opacity: 0.25; } }
+
+/* the chain: a rail running behind the entries */
+.ledger-list {
+  position: relative;
+  list-style: none;
+}
+
+.ledger-list::before {
+  content: "";
+  position: absolute;
+  left: 1.05rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(var(--violet), var(--biolume));
+  opacity: 0.55;
+}
+
+.ledger-entry {
+  position: relative;
+  max-height: 6rem;
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.75rem;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(61, 251, 216, 0.12);
+  background: #0c1724;
+}
+
+.ledger-entry:first-child { margin-top: 0; }
+
+.ledger-meta {
+  display: flex;
+  gap: 0.75rem;
+  color: var(--ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ledger-meta b { color: var(--ink); font-weight: 500; }
+
+.ledger-n { color: var(--violet); }
+
+.ledger-fix { color: var(--zombie); }
+
+.ledger-text {
+  margin: 0.3rem 0;
+  color: var(--ink);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.is-private .ledger-text { color: var(--ink-dim); font-style: italic; }
+
+.is-private .ledger-text::before { content: "🔒 "; font-style: normal; }
+
+.ledger-hash {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: rgba(143, 179, 169, 0.65);
+  font-size: 0.68rem;
+}
+
+.ledger-hash b { color: var(--biolume); font-weight: 500; }
+
+.ledger-entry.is-new {
+  animation:
+    ledger-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    ledger-glow 1.8s ease;
+}
+
+.ledger-entry.is-leaving { animation: ledger-out 0.6s ease forwards; }
+
+@keyframes ledger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    max-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+@keyframes ledger-glow {
+  from {
+    border-color: var(--biolume);
+    box-shadow: 0 0 18px rgba(61, 251, 216, 0.35);
+  }
+}
+
+@keyframes ledger-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+    max-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+  }
+}
+
+.ledger figcaption {
+  margin-top: 0.8rem;
+  color: var(--ink-dim);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+/* ── why it's different: lead tile spans the row ── */
+
+.feature-wide { grid-column: 1 / -1; }
+
+.feature-wide p { max-width: 80ch; }
+
+.project-wip .feature {
+  border-color: rgba(138, 108, 255, 0.14);
+  background: linear-gradient(160deg, rgba(138, 108, 255, 0.08), rgba(61, 251, 216, 0.02) 60%, transparent);
+}
+
+.project-wip .feature:hover { border-color: rgba(138, 108, 255, 0.45); }
+
+.project-wip .feature-icon {
+  stroke: #b3a2ff;
+  background: rgba(138, 108, 255, 0.14);
+  filter: drop-shadow(0 0 6px rgba(138, 108, 255, 0.55));
+}
+
+/* ── how it's being built ── */
+
+.process {
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.process-steps {
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.process-steps li {
+  position: relative;
+  padding-left: 3.6rem;
+  counter-increment: step;
+}
+
+.process-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: -0.35rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--violet);
+}
+
+.process-steps h5 { font-size: 1.02rem; margin-bottom: 0.35rem; }
+
+.process-steps p { color: var(--ink-dim); font-size: 0.93rem; line-height: 1.65; }
+
+.stat {
+  padding: 1.6rem;
+  border-radius: 18px;
+  border: 1px solid rgba(138, 108, 255, 0.3);
+  background:
+    radial-gradient(circle at 25% 0%, rgba(138, 108, 255, 0.28), transparent 70%),
+    rgba(10, 18, 32, 0.6);
+}
+
+.stat-num {
+  display: block;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--biolume), var(--violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.stat p { margin-top: 0.8rem; color: var(--ink-dim); font-size: 0.88rem; line-height: 1.6; }
+
+/* ── the hard parts ── */
+
+.hard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.hard-card {
+  position: relative;
+  padding: 1.4rem;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(138, 108, 255, 0.18);
+  background: rgba(10, 18, 32, 0.55);
+}
+
+.hard-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--biolume), transparent);
+}
+
+.hard-card h5 { font-size: 1.02rem; margin-bottom: 0.45rem; }
+
+.hard-card p { color: var(--ink-dim); font-size: 0.92rem; line-height: 1.65; }
+
+/* ── where it is now: a progress track ── */
+
+.wip-now { max-width: 72ch; margin-bottom: 1.75rem; color: var(--ink-dim); line-height: 1.75; }
+
+.roadmap {
+  --done: 4;   /* steps built */
+  --steps: 7;
+  position: relative;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(var(--steps), 1fr);
+}
+
+.roadmap::before,
+.roadmap::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: calc(100% / var(--steps) / 2);
+  height: 2px;
+}
+
+.roadmap::before {
+  right: calc(100% / var(--steps) / 2);
+  background: rgba(143, 179, 169, 0.2);
+}
+
+.roadmap::after {
+  width: calc(100% / var(--steps) * var(--done));
+  background: linear-gradient(90deg, var(--biolume), var(--violet));
+  box-shadow: 0 0 10px rgba(61, 251, 216, 0.5);
+}
+
+.roadmap li {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.3rem;
+  text-align: center;
+}
+
+.roadmap-dot {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid rgba(143, 179, 169, 0.35);
+  background: var(--abyss-2);
+}
+
+.roadmap .done .roadmap-dot {
+  border-color: var(--biolume);
+  background: var(--biolume);
+  box-shadow: 0 0 10px rgba(61, 251, 216, 0.6);
+}
+
+.roadmap .done .roadmap-dot::after {
+  content: "";
+  width: 6px;
+  height: 3px;
+  margin-top: -2px;
+  border-left: 2px solid var(--abyss);
+  border-bottom: 2px solid var(--abyss);
+  transform: rotate(-45deg);
+}
+
+.roadmap .now .roadmap-dot {
+  border-color: var(--violet);
+  background: var(--violet);
+  animation: roadmap-pulse 2s ease-out infinite;
+}
+
+@keyframes roadmap-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(138, 108, 255, 0.6); }
+  100% { box-shadow: 0 0 0 12px rgba(138, 108, 255, 0); }
+}
+
+.roadmap-name { font-size: 0.86rem; line-height: 1.35; }
+
+.roadmap li:not(.done):not(.now) .roadmap-name { color: var(--ink-dim); }
+
+.roadmap .now .roadmap-name { font-weight: 700; }
+
+.roadmap-state {
+  color: var(--ink-dim);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.roadmap .done .roadmap-state { color: var(--biolume); }
+
+.roadmap .now .roadmap-state { color: #b3a2ff; }
+
+/* ── homepage: two work cards side by side ── */
+
+.work-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.work-cards .work-card { max-width: none; }
+
+.work-card .wip-mark { width: 88px; height: 88px; border-radius: 20px; }
+
+.work-card .wip-mark span { width: 28px; height: 28px; }
+
+@media (max-width: 860px) {
+  .wip-intro, .process { grid-template-columns: 1fr; }
+  .hard-grid { grid-template-columns: 1fr; }
+
+  /* the track turns vertical: each step draws its link to the next */
+  .roadmap { grid-template-columns: 1fr; }
+  .roadmap::before,
+  .roadmap::after { display: none; }
+  .roadmap li {
+    display: grid;
+    grid-template-columns: 18px 1fr auto;
+    align-items: start;
+    gap: 0.9rem;
+    padding: 0.5rem 0;
+    text-align: left;
+  }
+  .roadmap li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: calc(0.5rem + 9px);
+    width: 2px;
+    height: 100%;
+    background: rgba(143, 179, 169, 0.2);
+  }
+  .roadmap li.done::before {
+    background: linear-gradient(var(--biolume), var(--violet));
+    box-shadow: 0 0 8px rgba(61, 251, 216, 0.45);
+  }
+}
+
+@media (max-width: 600px) {
+  .wip-mark { width: 88px; height: 88px; border-radius: 20px; }
+  .wip-mark span { width: 28px; height: 28px; }
+  .process-steps li { padding-left: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wip-mark span, .ledger-live, .roadmap .now .roadmap-dot { animation: none; }
+}
