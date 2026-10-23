@@ -8,6 +8,8 @@ Risen from the deep. Expect it to mutate.
 - `index.html` — landing page (deep-sea zombie squid theme)
 - `css/style.css` — all styles; palette lives in `:root` custom properties
 - `js/main.js` — bioluminescent particle canvas + cursor-tracking squid eyes
+- `work/` — portfolio of shipped work (Sable Budget); each project's images
+  live in `work/<project>/`
 - `experiments/` — each experiment gets its own folder with its own `index.html`,
   then gets a card on the landing page
 - `experiments/slimeball/` — build output of SLIMEBALL, published from the

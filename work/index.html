@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — SQUIDZOMBIE</title>
+  <meta name="description" content="Things Max has shipped, including Sable Budget, a calm, private, by-hand budgeting app for iPhone.">
+  <meta property="og:title" content="Work — SQUIDZOMBIE">
+  <meta property="og:description" content="Things Max has shipped, including Sable Budget for iPhone.">
+  <meta property="og:image" content="https://squidzombie.com/work/sable/icon.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦑</text></svg>">
+</head>
+<body>
+  <canvas id="abyss" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <a class="wordmark" href="/">SQUID<span>ZOMBIE</span></a>
+    <nav>
+      <a href="/#experiments">Experiments</a>
+      <a href="/work/" aria-current="page">Work</a>
+      <a href="/#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero work-hero">
+      <h1 class="title">THE <span class="title-zombie">WORK</span></h1>
+      <p class="tagline">things max has shipped &middot; hauled up from the deep</p>
+      <div class="cta-row">
+        <a class="btn btn-ghost" href="https://github.com/squidzombie">GitHub ↗</a>
+      </div>
+    </section>
+
+    <section class="section" id="sable">
+      <h2><span class="section-num">01</span> Shipped</h2>
+
+      <article class="project">
+        <div class="project-head">
+          <img class="app-icon" src="sable/icon.jpg" width="256" height="256" alt="Sable Budget app icon: a cream sleeping dog curled on a dark background">
+          <div>
+            <div class="card-tag">IPHONE APP &middot; FINANCE &middot; FREE</div>
+            <h3 class="project-title">Sable Budget</h3>
+            <p class="project-lede">A budget you keep by hand: a big keypad, monthly envelopes, savings buckets, and a quiet sense of what's left.</p>
+            <p class="project-meta">On the App Store since August 2026 &middot; iOS 16.4+</p>
+          </div>
+        </div>
+
+        <div class="shots" aria-label="Sable Budget screenshots">
+          <img src="sable/screen-1.jpg" width="460" height="999" loading="lazy" alt="Home screen for August 2026: $826 left of $1,350, a $55 per day pace, and today's entries">
+          <img src="sable/screen-2.jpg" width="460" height="999" loading="lazy" alt="New entry keypad logging $30 for Thai takeout under Eating out">
+          <img src="sable/screen-3.jpg" width="460" height="999" loading="lazy" alt="Budgets screen with category envelopes for groceries, eating out, transport and more, 39% spent">
+          <img src="sable/screen-4.jpg" width="460" height="999" loading="lazy" alt="Savings screen showing $2,940 saved across goals like an emergency fund and a trip to Lisbon">
+          <img src="sable/screen-5.jpg" width="460" height="999" loading="lazy" alt="Reminders screen with recurring bills like rent and one-time tasks">
+          <img src="sable/screen-6.jpg" width="460" height="999" loading="lazy" alt="Appearance screen offering three moods: Warm, Minimal, and Bold">
+        </div>
+
+        <div class="project-cols">
+          <div>
+            <h4>What it does</h4>
+            <ul>
+              <li>Monthly budget with a calm "what's left · per day" pace</li>
+              <li>Category envelopes that fill as you spend</li>
+              <li>Savings buckets for the things you're building toward</li>
+              <li>Bill and task reminders that actually repeat</li>
+              <li>A month in review: top categories and one gentle note</li>
+            </ul>
+          </div>
+          <div class="refuses">
+            <h4>What it refuses to do</h4>
+            <ul>
+              <li>No bank or card connections, ever</li>
+              <li>No account, no sign-in, no cloud</li>
+              <li>No analytics, trackers, or ads; zero network calls</li>
+              <li>No subscription; backup export and import stay free</li>
+              <li>App Store privacy label: Data Not Collected</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-built">
+          <h4>How it's built</h4>
+          <p>Logging spending by hand is the whole method: that small moment of attention is what makes people notice what they spend. Privacy is a hard rule, not a setting. Everything lives in an encrypted database on the phone, there's no backend at all, and the app works fully in airplane mode. Backups are passphrase-encrypted files you can restore on any phone.</p>
+          <ul class="chips">
+            <li>Expo</li>
+            <li>React Native</li>
+            <li>TypeScript</li>
+            <li>Encrypted SQLite (SQLCipher)</li>
+            <li>Face ID lock</li>
+            <li>Zero network calls</li>
+          </ul>
+        </div>
+
+        <div class="cta-row project-ctas">
+          <a class="btn btn-primary" href="https://apps.apple.com/us/app/sable-budget/id6796062161">View on the App Store ↗</a>
+          <a class="btn btn-ghost" href="https://squidzombie.github.io/sable-site/privacy">Privacy policy</a>
+          <a class="btn btn-ghost" href="https://squidzombie.github.io/sable-site/support">Support</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2><span class="section-num">02</span> More surfacing</h2>
+      <p class="section-blurb">More work is on its way up from the trench. Meanwhile, <a href="/#experiments">the lab is open</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 squidzombie.com &middot; assembled in the abyss with 🦑 + 🧟</p>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
