@@ -8,9 +8,10 @@ Risen from the deep. Expect it to mutate.
 - `index.html` — landing page (deep-sea zombie squid theme)
 - `css/style.css` — all styles; palette lives in `:root` custom properties
 - `js/main.js` — bioluminescent particle canvas + cursor-tracking squid eyes
-- `work/` — portfolio: Sable Budget (shipped) and Squid (in progress); each
-  project's images live in `work/<project>/`
-- `js/work.js` — the Work page's 3D screenshot showcase (reusable per project)
+- `work/` — portfolio: Sable Budget and FlowTime (shipped),
+  Squid (in progress); each project's images live in `work/<project>/`
+- `js/work.js` — the Work page's 3D screenshot showcase (one per project;
+  add `showcase-wide` for landscape desktop screenshots)
 - `js/ledger.js` — Squid's illustrated hash-chained ledger (Tock data only)
 - `experiments/` — each experiment gets its own folder with its own `index.html`,
   then gets a card on the landing page

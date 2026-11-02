@@ -4,11 +4,12 @@
 // glows behind the stage. Flip with drag/swipe, arrows, dots, keys, or
 // a sideways trackpad swipe. Positions are a continuous function of a
 // (possibly fractional) index, so dragging moves everything with you.
+// Every [data-showcase] on the page gets its own instance. A showcase can
+// tune how far neighbours sit and how hard they turn with the CSS custom
+// properties --spread and --turn (wide desktop screenshots need less of
+// both than portrait phone ones).
 
-(() => {
-  const root = document.querySelector("[data-showcase]");
-  if (!root) return;
-
+document.querySelectorAll("[data-showcase]").forEach((root) => {
   const stage = root.querySelector(".showcase-stage");
   const slides = [...root.querySelectorAll(".slide")];
   const glows = [...root.querySelectorAll(".showcase-glow img")];
@@ -35,7 +36,15 @@
   });
 
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-  const spacing = () => slides[0].offsetWidth * 0.62;
+  let spread = 0.62;
+  let turn = 34;
+  function readTuning() {
+    const cs = getComputedStyle(root);
+    spread = parseFloat(cs.getPropertyValue("--spread")) || 0.62;
+    turn = parseFloat(cs.getPropertyValue("--turn")) || 34;
+  }
+  readTuning();
+  const spacing = () => slides[0].offsetWidth * spread;
 
   // Place every slide for a fractional active position p.
   function layout(p, animate) {
@@ -45,7 +54,7 @@
       const a = Math.abs(off);
       const x =
         Math.sign(off) * (Math.min(a, 1) * sp + Math.max(a - 1, 0) * sp * 0.55);
-      const rot = clamp(off, -1, 1) * -34;
+      const rot = clamp(off, -1, 1) * -turn;
       const z = -Math.min(a, 3) * 170;
       const scale = 1 - Math.min(a, 2) * 0.07;
       const blur = Math.min(a, 2.5) * 2.6;
@@ -199,9 +208,12 @@
   }
   stage.addEventListener("pointerleave", resetTilt);
 
-  addEventListener("resize", () => layout(active, false));
+  addEventListener("resize", () => {
+    readTuning();
+    layout(active, false);
+  });
 
   layout(0, false);
   go(0);
   root.classList.add("ready");
-})();
+});

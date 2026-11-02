@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work — SQUIDZOMBIE</title>
-  <meta name="description" content="Things Max has built: Sable Budget, a calm, private, by-hand budgeting app for iPhone, and Squid, a continuous local AI built to last for years.">
+  <meta name="description" content="Things Max has built: Sable Budget, a calm, private, by-hand budgeting app for iPhone; FlowTime, gentle focus timers and time tracking for Windows and Mac; and Squid, a continuous local AI built to last for years.">
   <meta property="og:title" content="Work — SQUIDZOMBIE">
-  <meta property="og:description" content="Sable Budget for iPhone, and Squid, a continuous local AI in progress.">
+  <meta property="og:description" content="Sable Budget for iPhone, FlowTime for focus and timesheets, and Squid, a continuous local AI in progress.">
   <meta property="og:image" content="https://squidzombie.com/work/sable/icon.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,6 +157,140 @@
           <a class="btn btn-ghost" href="https://squidzombie.github.io/sable-site/privacy">Privacy policy</a>
           <a class="btn btn-ghost" href="https://squidzombie.github.io/sable-site/support">Support</a>
         </div>
+      </article>
+
+      <article class="project project-flow" id="flowtime">
+        <div class="project-head">
+          <img class="app-icon" src="flowtime/icon.jpg" width="256" height="256" alt="FlowTime app icon: an orange progress ring around a periwinkle sound wave on a glossy navy square">
+          <div>
+            <div class="card-tag">DESKTOP APP &middot; FOCUS &amp; TIMESHEETS &middot; WINDOWS + MAC</div>
+            <h3 class="project-title">FlowTime</h3>
+            <p class="project-lede">Focus timers, a plan for the day, and a time log for work, with a little 2000s media-player soul.</p>
+            <p class="project-meta">Version 1.0 &middot; Windows 10/11 and macOS 13+ &middot; Not publicly available</p>
+          </div>
+        </div>
+
+        <div class="flow-intro">
+          <p>The hardest part of almost any task is starting. The next hardest is noticing time at all: an hour can be gone before you see it go. My coworkers have another problem on top of that. They have to report their hours, which means remembering where the day went.</p>
+          <p>FlowTime is my answer to both. It makes starting small, keeps time where you can see it, reminds you without nagging, and quietly turns everything you do into a timesheet. I designed it for myself first, then for the people I work with.</p>
+        </div>
+
+        <!-- Screenshot showcase: same coverflow as Sable's, in its wide (desktop window) variant -->
+        <div class="showcase showcase-wide" data-showcase>
+          <div class="showcase-glow" aria-hidden="true"><img alt=""><img alt=""></div>
+          <div class="showcase-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="FlowTime screenshots. Use the left and right arrow keys to flip through.">
+            <figure class="slide" data-caption="Studio, the calm default: what you're on, and what's next">
+              <div class="slide-card"><img src="flowtime/screen-1.jpg" width="1200" height="762" draggable="false" alt="Studio look, Today screen: Design homepage in progress with 18:43 left of 25 minutes on a thin blue ring, Pause, Finish and +5 min buttons, and an Up next list with a Standup pinned at 11:30 AM, Review proposal, Plan tomorrow and a Client call at 2:00 PM"></div>
+            </figure>
+            <figure class="slide" data-caption="Modular: brushed gunmetal and a lime seven-segment LCD">
+              <div class="slide-card"><img src="flowtime/screen-2.jpg" width="1200" height="762" draggable="false" alt="Modular look: Design homepage on a black LCD panel, 18:42 in large lime seven-segment digits over an LED progress meter, the up-next queue on the right, a row of task presets, and +5 MIN, PAUSE and COMPLETE buttons along the bottom"></div>
+            </figure>
+            <figure class="slide" data-caption="Liquid: frosted glass and a chrome dial">
+              <div class="slide-card"><img src="flowtime/screen-3.jpg" width="1200" height="762" draggable="false" alt="Liquid look: a frosted glass dial reading 18:37 for Design homepage, with +5, pause and done buttons inside it, next to a translucent queue of the day's tasks"></div>
+            </figure>
+            <figure class="slide" data-caption="Deck: cream hardware, album art and a big orange button">
+              <div class="slide-card"><img src="flowtime/screen-4.jpg" width="1200" height="762" draggable="false" alt="Deck look: cream panels with orange album art in the sidebar, 18:36 in heavy black digits beside a large orange pause button, a row of quick-switch task cards and the up-next list"></div>
+            </figure>
+            <figure class="slide" data-caption="Starting takes one click: just 5 minutes, name it later">
+              <div class="slide-card"><img src="flowtime/screen-5.jpg" width="1200" height="762" draggable="false" alt="First screen asking What could you give 5 minutes to?, with a Name it, or just press Play field, a Just 5 minutes button, Stopwatch, and 5, 15, 25 and 45 minute choices, beside a welcome card offering four looks and noting that everything stays on this computer"></div>
+            </figure>
+            <figure class="slide" data-caption="At zero, one clear alert, and the choice is yours">
+              <div class="slide-card"><img src="flowtime/screen-6.jpg" width="1200" height="762" draggable="false" alt="Time's up alert for Design homepage, two minutes over, asking Keep going or wrap up? with +5 min, Done and Keep going buttons, while the timer counts +2:13 of bonus time"></div>
+            </figure>
+            <figure class="slide" data-caption="Last week as a timesheet, ready to paste into Excel">
+              <div class="slide-card"><img src="flowtime/screen-7.jpg" width="1200" height="762" draggable="false" alt="History, Week tab: last week's hours per project for each day, rounded to 15 minutes and adding up to 21 hours, with Copy week as table and Export timesheet CSV buttons"></div>
+            </figure>
+            <figure class="slide" data-caption="A mini player that stays on top, in every look">
+              <div class="slide-card"><img src="flowtime/screen-8.jpg" width="1200" height="762" draggable="false" alt="The mini player and the smaller pill in all four looks, Studio, Liquid, Modular and Deck, each showing Design homepage with about 18 minutes left"></div>
+            </figure>
+          </div>
+          <button class="showcase-nav prev" type="button" aria-label="Previous screenshot">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="showcase-nav next" type="button" aria-label="Next screenshot">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="showcase-foot">
+            <div>
+              <div class="showcase-count" aria-hidden="true">01 / 08</div>
+              <p class="showcase-caption" aria-live="polite"></p>
+            </div>
+            <div class="showcase-dots"></div>
+          </div>
+        </div>
+
+        <h4 class="project-label">What it does</h4>
+        <div class="feature-grid">
+          <div class="feature feature-wide">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M10.5 8.8l4.6 3.2-4.6 3.2z"/></svg>
+            <h5>Starting is the whole game</h5>
+            <p>Open FlowTime and it asks one question: what could you give 5 minutes to? Press Just 5 minutes and the timer is running. You don’t have to name the task first. Leave it blank and it’s just called Focus, or type “email 10” to start ten minutes on email. Started a while ago and forgot to press anything? Back-date the timer and carry on.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.5 1.5"/><path d="M4.5 5.5l2.5-2"/><path d="M19.5 5.5l-2.5-2"/></svg>
+            <h5>Reminders that know when to stop</h5>
+            <p>A soft chime a minute before the end, then one clear alert at zero: +5, Done or Keep going. Keep going and overtime counts up where you can see it, with a check-in at 5, 15 and 30 minutes over, then quiet. It never steals focus from what you’re typing in.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14l-4-4 4-4"/><path d="M5 10h9a5 5 0 0 1 0 10h-2"/></svg>
+            <h5>One click to switch</h5>
+            <p>Pulled onto something else? Click it. The time so far is logged, the new timer starts, and a “Back to …” button takes you straight back when you’re done. Clicked the wrong thing? Undo.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.3 9.7 4.4 4.4 0 0 0 7 18.5z"/></svg>
+            <h5>A parking lot for stray thoughts</h5>
+            <p>When a thought pops up mid-task, type it into the parking lot and keep going. The timer doesn’t stop, and the thought waits on your plan instead of in your head.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.3 6.3 0 0 0 10 10z"/></svg>
+            <h5>It notices when you step away</h5>
+            <p>If the computer sleeps or you walk away with a timer running, it asks when you’re back: “Welcome back. Away 18 min — count it?” Count it, leave it out, or call it a break.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17"/><path d="M3.5 14.5h17"/><path d="M9.5 9.5v10"/></svg>
+            <h5>Every timer becomes a timesheet</h5>
+            <p>Each timer is logged with its project, so the hours are already there. History has a day-by-day log, a weekly timesheet and simple reports, plus a one-click summary of today and CSV export that opens cleanly in Excel.</p>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            <h5>Four looks, one engine</h5>
+            <p>Studio is the calm default. Modular, Liquid and Deck are inspired by 2000s media players, each built from my own mockups with its own layout, controls and mini player. Switching looks never touches your timers, plan or history.</p>
+          </div>
+        </div>
+
+        <div class="refusal">
+          <div class="refusal-badge">
+            <span class="refusal-kicker">Where your data lives</span>
+            <strong>On your computer</strong>
+            <span class="refusal-kicker">What it refuses to do</span>
+          </div>
+          <ul class="refusal-list">
+            <li>No account or sign-in</li>
+            <li>Never connects to the internet</li>
+            <li>No analytics, crash reports or auto-updates</li>
+            <li>No streaks, scores or guilt</li>
+            <li>No endless nagging</li>
+          </ul>
+        </div>
+
+        <h4 class="project-label">How it's built</h4>
+        <div class="built">
+          <div class="built-story">
+            <p>It started as four mockups of how I wanted it to feel. Each look is its own layout, but they all run on one engine that stores time as timestamps rather than a ticking counter, so sleep, a closed lid or a clock change can’t throw a timer off. Your data is one file on your computer, with daily backups next to it.</p>
+            <p>The code is written by Claude, working from my mockups and decisions. Every screen then went through rounds of screenshot review against those mockups, in every look and state. A separate adversarial review went hunting for bugs in timing, saved data and security, and each one it confirmed was fixed along with a test that proves it stays fixed.</p>
+            <p>The tone mattered as much as the features. Every label is plain language, nothing on screen calls you late or says you missed something, and it all works from the keyboard, with screen-reader labels and reduced motion.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Platform</dt><dd>Windows 10/11 &middot; macOS 13+, Intel and Apple Silicon</dd></div>
+            <div><dt>Stack</dt><dd>Electron &middot; React &middot; TypeScript</dd></div>
+            <div><dt>Storage</dt><dd>One file on your computer, with daily backups</dd></div>
+            <div><dt>Network</dt><dd>None. No account, fully offline</dd></div>
+            <div><dt>Desktop</dt><dd>Tray icon &middot; menu-bar countdown on Mac &middot; taskbar progress on Windows</dd></div>
+            <div><dt>Version</dt><dd>1.0</dd></div>
+          </dl>
+        </div>
+
+        <p class="project-status"><span class="status-dot" aria-hidden="true"></span><span><strong>Private for now.</strong> I share it with my coworkers on a USB stick; it isn’t available to download.</span></p>
       </article>
     </section>
 

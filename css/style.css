@@ -254,6 +254,10 @@ body {
   overflow: hidden;
 }
 
+/* Several projects can share a section (Shipped holds Sable and FlowTime). */
+.project + .project { margin-top: 2.5rem; }
+.project[id] { scroll-margin-top: 2rem; }
+
 .project-head {
   display: flex;
   gap: 1.5rem;
@@ -1132,4 +1136,136 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .wip-mark span, .ledger-live, .roadmap .now .roadmap-dot { animation: none; }
+}
+
+/* ── work page: FlowTime ────────────────────────────────────────── */
+/* Sable wears teal, Squid violet; FlowTime wears its own timer orange. */
+
+.project-flow {
+  --ember: #ff8a3d;
+  --ember-ink: #ffb27a;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(255, 138, 61, 0.11), transparent 55%),
+    var(--card);
+  border-color: rgba(255, 138, 61, 0.24);
+}
+
+.project-flow .card-tag { color: var(--ember-ink); }
+
+.project-flow .app-icon { box-shadow: 0 0 32px rgba(255, 138, 61, 0.24); }
+
+.flow-intro { max-width: 74ch; margin-top: 1.75rem; }
+
+.flow-intro p { color: var(--ink-dim); font-size: 1.02rem; line-height: 1.8; }
+
+.flow-intro p + p { margin-top: 1rem; }
+
+.project-flow .feature {
+  border-color: rgba(255, 138, 61, 0.13);
+  background: linear-gradient(160deg, rgba(255, 138, 61, 0.07), rgba(61, 251, 216, 0.02) 60%, transparent);
+}
+
+.project-flow .feature:hover { border-color: rgba(255, 138, 61, 0.42); }
+
+.project-flow .feature-icon {
+  stroke: var(--ember-ink);
+  background: rgba(255, 138, 61, 0.13);
+  filter: drop-shadow(0 0 6px rgba(255, 138, 61, 0.5));
+}
+
+.project-flow .refusal {
+  background:
+    linear-gradient(var(--abyss-2), var(--abyss-2)) padding-box,
+    linear-gradient(120deg, rgba(255, 138, 61, 0.65), rgba(61, 251, 216, 0.25), rgba(138, 108, 255, 0.6)) border-box;
+}
+
+.project-flow .refusal-badge strong {
+  color: var(--ember-ink);
+  text-shadow: 0 0 28px rgba(255, 138, 61, 0.45);
+}
+
+.project-flow .slide.is-active .slide-card {
+  box-shadow:
+    0 40px 80px -24px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 138, 61, 0.3),
+    0 0 60px rgba(255, 138, 61, 0.12);
+}
+
+.project-flow .showcase-stage:focus-visible .slide.is-active .slide-card { outline-color: var(--ember); }
+
+.project-flow .showcase-nav:hover:not(:disabled) {
+  border-color: var(--ember);
+  background: rgba(255, 138, 61, 0.12);
+}
+
+.project-flow .showcase-dot[aria-current="true"] {
+  background: var(--ember);
+  box-shadow: 0 0 12px rgba(255, 138, 61, 0.7);
+}
+
+/* a quiet status line where Sable has its store buttons */
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 2.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 138, 61, 0.3);
+  background: rgba(255, 138, 61, 0.06);
+  color: var(--ink-dim);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.project-status strong { color: var(--ink); font-weight: 500; }
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 10px rgba(255, 138, 61, 0.8);
+}
+
+/* ── wide showcase: landscape desktop windows instead of phones ── */
+/* Same coverflow and controls; the cards are wider and shorter, sit
+   closer together and turn less. --ratio is height / width. */
+
+.showcase-wide {
+  --w: clamp(260px, 62vw, 600px);
+  --ratio: 0.635;
+  --spread: 0.5;
+  --turn: 28;
+}
+
+.showcase-wide .showcase-glow {
+  width: calc(var(--w) * 1.8);
+  height: calc(var(--w) * var(--ratio) * 1.5);
+}
+
+.showcase-wide .showcase-stage {
+  height: calc(var(--w) * var(--ratio) + 2.5rem);
+  perspective: 1700px;
+}
+
+.showcase-wide .showcase-glow img.on { opacity: 0.26; }
+
+.showcase-wide .slide-card { border-radius: calc(var(--w) * 0.016); }
+
+.showcase-wide .showcase-nav { top: calc(2.5rem + var(--w) * var(--ratio) / 2); }
+
+@media (max-width: 600px) {
+  .showcase-wide { --w: 80vw; --spread: 0.56; }
+
+  /* no room beside a wide card: the arrows sit in a row under the dots */
+  .showcase-wide .showcase-foot { padding-bottom: 3.6rem; }
+  .showcase-wide .showcase-nav { top: auto; bottom: 0; transform: none; }
+  .showcase-wide .showcase-nav:hover:not(:disabled) { transform: scale(1.06); }
+  .showcase-wide .showcase-nav.prev { left: calc(50% - 50px); }
+  .showcase-wide .showcase-nav.next { right: calc(50% - 50px); }
+
+  .project-status { border-radius: 16px; align-items: flex-start; }
+  .project-status .status-dot { margin-top: 0.45rem; }
 }
