@@ -1,7 +1,7 @@
 # squidzombie.com
 
 Max's portfolio, built collaboratively with Claude.
-Calm, private software, risen from the deep. Expect it to mutate.
+Private software, risen from the deep. Expect it to mutate.
 
 ## Structure
 
