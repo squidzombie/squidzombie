@@ -1,4 +1,4 @@
-// ── squidzombie.com — abyss particles + watchful squid ──────────────
+// ── squidzombie.com — abyss particles + the watchful seal ───────────
 
 // --- Bioluminescent particle field -------------------------------------
 const canvas = document.getElementById("abyss");
@@ -8,6 +8,8 @@ let particles = [];
 const mouse = { x: -9999, y: -9999 };
 
 const PALETTE = ["#3dfbd8", "#8aff5a", "#8a6cff", "#5ad8ff"];
+// With reduced motion the plankton is drawn once and holds still.
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function resize() {
   canvas.width = window.innerWidth;
@@ -59,28 +61,28 @@ function tick() {
   }
   ctx.globalAlpha = 1;
 
-  requestAnimationFrame(tick);
+  if (!reduceMotion) requestAnimationFrame(tick);
 }
 
-// --- The squid's eyes follow your cursor -------------------------------
-const pupils = document.querySelectorAll(".pupil");
-const squid = document.getElementById("squid");
+// --- The seal's squid keeps an eye on your cursor ---------------------
+// Pupils sit in the mark's eye holes; they roam a little toward the
+// pointer, and settle back as it gets close to the eye.
+const pupils = document.querySelectorAll(".seal .pupil");
+const REACH = 1.1; // in mark units: eye hole r 3.3, pupil r 1.95
 
 function aimEyes(clientX, clientY) {
-  if (!squid) return;
-  const rect = squid.getBoundingClientRect();
-  const scale = rect.width / 200; // viewBox width
-
   for (const pupil of pupils) {
     const eyeX = Number(pupil.dataset.eyeX);
     const eyeY = Number(pupil.dataset.eyeY);
-    const eyeScreenX = rect.left + eyeX * scale;
-    const eyeScreenY = rect.top + eyeY * scale;
-
-    const angle = Math.atan2(clientY - eyeScreenY, clientX - eyeScreenX);
-    const reach = 8; // how far the pupil roams inside the eye
-    pupil.setAttribute("cx", eyeX + Math.cos(angle) * reach);
-    pupil.setAttribute("cy", eyeY + Math.sin(angle) * reach);
+    const m = pupil.parentNode.getScreenCTM();
+    if (!m) continue;
+    const eye = new DOMPoint(eyeX, eyeY).matrixTransform(m);
+    const dx = clientX - eye.x;
+    const dy = clientY - eye.y;
+    const pull = Math.min(1, Math.hypot(dx, dy) / 40);
+    const angle = Math.atan2(dy, dx);
+    pupil.setAttribute("cx", (eyeX + Math.cos(angle) * REACH * pull).toFixed(2));
+    pupil.setAttribute("cy", (eyeY + Math.sin(angle) * REACH * pull).toFixed(2));
   }
 }
 
@@ -98,6 +100,7 @@ window.addEventListener("mouseout", () => {
 window.addEventListener("resize", () => {
   resize();
   spawnParticles();
+  if (reduceMotion) tick();
 });
 
 resize();

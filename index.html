@@ -3,169 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SQUIDZOMBIE — risen from the deep</title>
-  <meta name="description" content="squidzombie.com — Max's corner of the abyss. Experiments, oddities, and whatever crawls out of the deep.">
+  <title>Squidzombie — calm, private software by Max</title>
+  <meta name="description" content="The portfolio of Max: Sable Budget, a calm, private budgeting app for iPhone; FlowTime, focus timers and timesheets for Windows and Mac; and Squid, a continuous local AI in progress.">
+  <meta property="og:title" content="Squidzombie — calm, private software by Max">
+  <meta property="og:description" content="Sable Budget for iPhone, FlowTime for focus and timesheets, and Squid, a continuous local AI in progress.">
+  <meta property="og:image" content="https://squidzombie.com/og-card.jpg">
+  <meta property="og:url" content="https://squidzombie.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#050a12">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦑</text></svg>">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
   <canvas id="abyss" aria-hidden="true"></canvas>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <!-- The Squidzombie mark (also favicon.svg). sz-body has open eye sockets; sz-mark adds the pupils. -->
+    <symbol id="sz-body" viewBox="0 0 100 128"><path d="M50 2C55.5 6.5 67 14 74.2 24.4C68.6 27.4 63.2 31.6 60.9 38.8C61.9 46 62.4 53.5 62.2 60.6C58.4 62 54.2 62.7 50 62.7C45.8 62.7 41.6 62 37.8 60.6C37.6 53.5 38.1 46 39.1 38.8C36.8 31.6 31.4 27.4 25.8 24.4C33 14 44.5 6.5 50 2Z"/><path fill-rule="evenodd" d="M50 63.7C57.6 63.7 63.6 64.9 63.6 68.6C63.6 72 60 74.6 57.6 77.4L42.4 77.4C40 74.6 36.4 72 36.4 68.6C36.4 64.9 42.4 63.7 50 63.7ZM38.8 68.6a3.3 3.3 0 1 0 6.6 0a3.3 3.3 0 1 0 -6.6 0ZM54.6 68.6a3.3 3.3 0 1 0 6.6 0a3.3 3.3 0 1 0 -6.6 0Z"/><path d="M49.7 76.2C49.8 76.6 50 77.7 50.2 78.8C50.3 79.9 50.5 81.3 50.7 82.5C50.9 83.8 51 85.2 51.1 86.3C51.2 87.5 51.3 88.4 51.3 89.5C51.3 90.5 51.2 91.5 51.2 92.5C51.2 93.5 51.1 94.5 51.1 95.5C51.2 96.5 51.2 97.4 51.4 98.4C51.5 99.4 51.7 100.5 51.9 101.4C52.1 102.4 52.4 103.3 52.6 104.1C52.7 104.9 53 105.6 53.1 105.9L53.3 105.9L53.5 105.9C53.5 105.5 53.4 104.7 53.3 103.9C53.2 103.2 53.1 102.2 53 101.2C52.9 100.3 52.8 99.2 52.8 98.3C52.7 97.3 52.8 96.5 52.9 95.6C52.9 94.6 53.1 93.7 53.2 92.7C53.4 91.7 53.5 90.7 53.6 89.6C53.7 88.5 53.8 87.4 53.8 86.2C53.8 85 53.7 83.6 53.7 82.3C53.7 81 53.6 79.5 53.5 78.5C53.5 77.4 53.5 76.3 53.5 75.8ZM52.6 76C52.8 76.6 53.2 78 53.6 79.4C53.9 80.7 54.4 82.6 54.8 84.1C55.2 85.5 55.5 86.8 55.8 88.2C56.1 89.5 56.4 90.8 56.7 92.1C57.1 93.3 57.4 94.6 57.8 95.7C58.2 96.9 58.6 97.9 59.1 98.9C59.5 99.9 60 100.9 60.5 101.6C61.1 102.4 61.7 103 62.3 103.3C62.8 103.6 63.6 103.4 64.1 103.4C64.6 103.4 65 103.3 65.2 103.2L65.2 103L65.2 102.8C65 102.7 64.5 102.7 64.1 102.6C63.6 102.5 63.1 102.5 62.8 102.2C62.4 102 62.1 101.6 61.8 100.9C61.5 100.2 61.1 99.2 60.7 98.3C60.4 97.3 60.1 96.2 59.8 95.1C59.6 94 59.4 92.8 59.1 91.6C58.9 90.3 58.8 89 58.6 87.6C58.4 86.3 58.1 84.9 57.9 83.4C57.6 81.9 57.3 80 57.1 78.6C56.8 77.3 56.6 75.8 56.6 75.2ZM55.6 75.7C55.9 76.1 56.6 77.2 57.2 78.3C57.8 79.3 58.6 80.7 59.3 81.8C59.9 83 60.5 84.1 61.1 85.2C61.7 86.4 62.3 87.7 62.9 88.8C63.4 90 64.1 91.2 64.7 92.1C65.3 93.1 66 94 66.7 94.7C67.3 95.5 68 96.2 68.7 96.7C69.4 97.2 70.1 97.6 70.8 97.6C71.5 97.7 72.2 97.4 72.7 97.2C73.2 97 73.7 96.7 73.8 96.6L73.8 96.4L73.8 96.2C73.5 96.2 72.9 96.4 72.5 96.4C72 96.5 71.4 96.6 70.9 96.5C70.4 96.4 70.1 96.1 69.6 95.6C69.2 95.1 68.6 94.4 68.1 93.7C67.5 92.9 67 92 66.5 91.1C66 90.1 65.6 89 65.1 87.8C64.6 86.7 64.2 85.3 63.7 84.1C63.2 82.9 62.7 81.6 62.1 80.4C61.6 79.1 60.9 77.7 60.4 76.6C59.9 75.5 59.4 74.3 59.2 73.9ZM51.6 76.6C51.8 77.5 52.2 80.3 52.5 82C52.7 83.7 53 84.9 53.2 86.8C53.5 88.7 53.9 91.8 54.1 93.5C54.3 95.3 54.3 95.9 54.5 97.5C54.6 99.1 54.7 101.6 54.8 103.1C54.9 104.6 55 105.2 55.2 106.5C55.3 107.8 55.6 109.7 55.8 110.8C55.9 112 56 112.4 56.3 113.4C56.5 114.4 57.1 115.9 57.5 116.9C57.9 117.8 58.1 118.2 58.7 119C59.3 119.7 60.3 120.9 61 121.6C61.6 122.2 61.9 122.5 62.7 122.8C63.4 123.1 64.7 123.4 65.5 123.6C66.3 123.7 66.7 123.6 67.5 123.5C68.2 123.3 69.3 123 69.9 122.7C70.5 122.4 70.7 122.2 71.2 121.7C71.6 121.2 72.3 120.3 72.6 119.7C72.9 119.1 73.2 118.9 73.1 118.3C73.1 117.7 72.8 116.6 72.5 116C72.2 115.5 71.9 115.3 71.4 115C70.9 114.7 70.1 114.4 69.6 114.3C69.2 114.3 69 114.6 68.6 114.9C68.2 115.2 67.7 115.8 67.5 116.1C67.2 116.3 67.1 116.5 67 116.6L67.2 116.8L67.4 117C67.5 117 67.7 116.8 68 116.6C68.3 116.4 68.8 115.8 69.1 115.7C69.4 115.5 69.5 115.5 69.6 115.6C69.8 115.7 69.9 116 70.1 116.3C70.2 116.6 70.4 116.9 70.5 117.2C70.7 117.5 70.8 117.8 70.9 118.1C70.9 118.4 71 118.5 70.8 118.9C70.7 119.4 70.2 120.2 69.9 120.6C69.7 121 69.6 121.2 69.1 121.4C68.7 121.6 67.8 121.8 67.3 121.9C66.7 121.9 66.3 122 65.7 121.9C65.1 121.7 64.1 121.5 63.5 121.2C63 120.9 62.8 120.7 62.3 120.2C61.8 119.6 60.9 118.5 60.4 117.8C59.9 117.1 59.7 116.8 59.4 116C59.1 115.1 58.7 113.8 58.4 112.9C58.2 112 58.2 111.6 58.1 110.5C57.9 109.4 57.7 107.5 57.6 106.3C57.5 105 57.5 104.5 57.4 103C57.3 101.5 57.2 98.9 57.1 97.3C57 95.7 57.1 95.1 56.9 93.3C56.7 91.5 56.4 88.4 56.1 86.4C55.9 84.5 55.7 83.2 55.5 81.5C55.3 79.8 54.9 77.1 54.8 76.2Z"/><path transform="matrix(-1 0 0 1 100 0)" d="M49.7 76.2C49.8 76.6 50 77.7 50.2 78.8C50.3 79.9 50.5 81.3 50.7 82.5C50.9 83.8 51 85.2 51.1 86.3C51.2 87.5 51.3 88.4 51.3 89.5C51.3 90.5 51.2 91.5 51.2 92.5C51.2 93.5 51.1 94.5 51.1 95.5C51.2 96.5 51.2 97.4 51.4 98.4C51.5 99.4 51.7 100.5 51.9 101.4C52.1 102.4 52.4 103.3 52.6 104.1C52.7 104.9 53 105.6 53.1 105.9L53.3 105.9L53.5 105.9C53.5 105.5 53.4 104.7 53.3 103.9C53.2 103.2 53.1 102.2 53 101.2C52.9 100.3 52.8 99.2 52.8 98.3C52.7 97.3 52.8 96.5 52.9 95.6C52.9 94.6 53.1 93.7 53.2 92.7C53.4 91.7 53.5 90.7 53.6 89.6C53.7 88.5 53.8 87.4 53.8 86.2C53.8 85 53.7 83.6 53.7 82.3C53.7 81 53.6 79.5 53.5 78.5C53.5 77.4 53.5 76.3 53.5 75.8ZM52.6 76C52.8 76.6 53.2 78 53.6 79.4C53.9 80.7 54.4 82.6 54.8 84.1C55.2 85.5 55.5 86.8 55.8 88.2C56.1 89.5 56.4 90.8 56.7 92.1C57.1 93.3 57.4 94.6 57.8 95.7C58.2 96.9 58.6 97.9 59.1 98.9C59.5 99.9 60 100.9 60.5 101.6C61.1 102.4 61.7 103 62.3 103.3C62.8 103.6 63.6 103.4 64.1 103.4C64.6 103.4 65 103.3 65.2 103.2L65.2 103L65.2 102.8C65 102.7 64.5 102.7 64.1 102.6C63.6 102.5 63.1 102.5 62.8 102.2C62.4 102 62.1 101.6 61.8 100.9C61.5 100.2 61.1 99.2 60.7 98.3C60.4 97.3 60.1 96.2 59.8 95.1C59.6 94 59.4 92.8 59.1 91.6C58.9 90.3 58.8 89 58.6 87.6C58.4 86.3 58.1 84.9 57.9 83.4C57.6 81.9 57.3 80 57.1 78.6C56.8 77.3 56.6 75.8 56.6 75.2ZM55.6 75.7C55.9 76.1 56.6 77.2 57.2 78.3C57.8 79.3 58.6 80.7 59.3 81.8C59.9 83 60.5 84.1 61.1 85.2C61.7 86.4 62.3 87.7 62.9 88.8C63.4 90 64.1 91.2 64.7 92.1C65.3 93.1 66 94 66.7 94.7C67.3 95.5 68 96.2 68.7 96.7C69.4 97.2 70.1 97.6 70.8 97.6C71.5 97.7 72.2 97.4 72.7 97.2C73.2 97 73.7 96.7 73.8 96.6L73.8 96.4L73.8 96.2C73.5 96.2 72.9 96.4 72.5 96.4C72 96.5 71.4 96.6 70.9 96.5C70.4 96.4 70.1 96.1 69.6 95.6C69.2 95.1 68.6 94.4 68.1 93.7C67.5 92.9 67 92 66.5 91.1C66 90.1 65.6 89 65.1 87.8C64.6 86.7 64.2 85.3 63.7 84.1C63.2 82.9 62.7 81.6 62.1 80.4C61.6 79.1 60.9 77.7 60.4 76.6C59.9 75.5 59.4 74.3 59.2 73.9ZM51.6 76.6C51.8 77.5 52.2 80.3 52.5 82C52.7 83.7 53 84.9 53.2 86.8C53.5 88.7 53.9 91.8 54.1 93.5C54.3 95.3 54.3 95.9 54.5 97.5C54.6 99.1 54.7 101.6 54.8 103.1C54.9 104.6 55 105.2 55.2 106.5C55.3 107.8 55.6 109.7 55.8 110.8C55.9 112 56 112.4 56.3 113.4C56.5 114.4 57.1 115.9 57.5 116.9C57.9 117.8 58.1 118.2 58.7 119C59.3 119.7 60.3 120.9 61 121.6C61.6 122.2 61.9 122.5 62.7 122.8C63.4 123.1 64.7 123.4 65.5 123.6C66.3 123.7 66.7 123.6 67.5 123.5C68.2 123.3 69.3 123 69.9 122.7C70.5 122.4 70.7 122.2 71.2 121.7C71.6 121.2 72.3 120.3 72.6 119.7C72.9 119.1 73.2 118.9 73.1 118.3C73.1 117.7 72.8 116.6 72.5 116C72.2 115.5 71.9 115.3 71.4 115C70.9 114.7 70.1 114.4 69.6 114.3C69.2 114.3 69 114.6 68.6 114.9C68.2 115.2 67.7 115.8 67.5 116.1C67.2 116.3 67.1 116.5 67 116.6L67.2 116.8L67.4 117C67.5 117 67.7 116.8 68 116.6C68.3 116.4 68.8 115.8 69.1 115.7C69.4 115.5 69.5 115.5 69.6 115.6C69.8 115.7 69.9 116 70.1 116.3C70.2 116.6 70.4 116.9 70.5 117.2C70.7 117.5 70.8 117.8 70.9 118.1C70.9 118.4 71 118.5 70.8 118.9C70.7 119.4 70.2 120.2 69.9 120.6C69.7 121 69.6 121.2 69.1 121.4C68.7 121.6 67.8 121.8 67.3 121.9C66.7 121.9 66.3 122 65.7 121.9C65.1 121.7 64.1 121.5 63.5 121.2C63 120.9 62.8 120.7 62.3 120.2C61.8 119.6 60.9 118.5 60.4 117.8C59.9 117.1 59.7 116.8 59.4 116C59.1 115.1 58.7 113.8 58.4 112.9C58.2 112 58.2 111.6 58.1 110.5C57.9 109.4 57.7 107.5 57.6 106.3C57.5 105 57.5 104.5 57.4 103C57.3 101.5 57.2 98.9 57.1 97.3C57 95.7 57.1 95.1 56.9 93.3C56.7 91.5 56.4 88.4 56.1 86.4C55.9 84.5 55.7 83.2 55.5 81.5C55.3 79.8 54.9 77.1 54.8 76.2Z"/></symbol>
+    <symbol id="sz-mark" viewBox="0 0 100 128"><use href="#sz-body" width="100" height="128"/><circle cx="42.1" cy="68.9" r="1.95"/><circle cx="57.9" cy="68.9" r="1.95"/></symbol>
+  </svg>
 
   <header class="site-header">
-    <a class="wordmark" href="/">SQUID<span>ZOMBIE</span></a>
+    <a class="wordmark" href="./" aria-label="Squidzombie home">
+      <svg class="wordmark-mark" viewBox="25 1 50 124" aria-hidden="true"><use href="#sz-mark" width="100" height="128"/></svg>
+      <span class="wordmark-text">SQUID<span class="wm-zombie">ZOMBIE</span></span>
+    </a>
     <nav>
-      <a href="#experiments">Experiments</a>
       <a href="work/">Work</a>
+      <a href="#approach">Approach</a>
       <a href="#about">About</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="squid-wrap" id="squid-wrap">
-        <!-- The Squid. Its eyes follow your cursor. It knows. -->
-        <svg id="squid" viewBox="0 0 200 240" width="220" height="264" role="img" aria-label="A zombie squid">
+    <section class="home-hero">
+      <div class="home-hero-text">
+        <a class="now-pill" href="work/#squid"><span class="now-dot" aria-hidden="true"></span><span>Now building <b>Squid</b>, a continuous local AI</span></a>
+        <h1 class="home-title">Calm, private software, <em>risen from the deep.</em></h1>
+        <p class="home-lede">I’m Max. I design and build small, careful software for problems I actually have: a budget you keep by hand, timers that make starting easy, and an AI whose memory can’t be quietly rewritten. No accounts, no trackers, no guilt.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#work">See the work</a>
+          <a class="btn btn-ghost" href="#about">About me</a>
+        </div>
+      </div>
+
+      <div class="seal-wrap">
+        <!-- The seal. The squid's eyes follow your cursor (js/main.js). -->
+        <svg class="seal" viewBox="0 0 300 300" role="img" aria-label="The Squidzombie seal: a squid inside a ring that reads Squidzombie, made in the deep, established 2026">
           <defs>
-            <radialGradient id="mantleGrad" cx="50%" cy="35%" r="75%">
-              <stop offset="0%" stop-color="#9df7e2"/>
-              <stop offset="55%" stop-color="#3ecfae"/>
-              <stop offset="100%" stop-color="#1a7a66"/>
+            <path id="seal-path" d="M150 150m-118 0a118 118 0 1 1 236 0a118 118 0 1 1-236 0"/>
+            <radialGradient id="seal-glow">
+              <stop offset="0%" stop-color="#3dfbd8" stop-opacity="0.16"/>
+              <stop offset="100%" stop-color="#3dfbd8" stop-opacity="0"/>
             </radialGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="6" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
+            <filter id="seal-bloom" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feComponentTransfer in="blur" result="soft"><feFuncA type="linear" slope="0.6"/></feComponentTransfer>
+              <feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-
-          <!-- tentacles -->
-          <g class="tentacles" stroke="#2aa78b" stroke-width="9" stroke-linecap="round" fill="none">
-            <path class="tent t1" d="M70 150 C 60 185, 40 195, 32 226"/>
-            <path class="tent t2" d="M85 158 C 82 192, 70 205, 72 232"/>
-            <path class="tent t3" d="M100 160 C 100 195, 100 210, 100 236"/>
-            <path class="tent t4" d="M115 158 C 118 192, 130 205, 128 232"/>
-            <path class="tent t5" d="M130 150 C 140 185, 160 195, 168 226"/>
+          <circle cx="150" cy="150" r="104" fill="url(#seal-glow)"/>
+          <circle class="seal-rim" cx="150" cy="150" r="143"/>
+          <circle class="seal-rim" cx="150" cy="150" r="104"/>
+          <g class="seal-ring">
+            <text><textPath href="#seal-path" textLength="737" lengthAdjust="spacing">SQUIDZOMBIE <tspan class="seal-star">✦</tspan> MADE IN THE DEEP <tspan class="seal-star">✦</tspan> EST. 2026 <tspan class="seal-star">✦</tspan></textPath></text>
           </g>
-
-          <!-- mantle -->
-          <path d="M100 8 C 140 8, 162 52, 158 100 C 155 140, 132 165, 100 165 C 68 165, 45 140, 42 100 C 38 52, 60 8, 100 8 Z"
-                fill="url(#mantleGrad)" filter="url(#glow)"/>
-
-          <!-- zombie stitch -->
-          <g stroke="#0d3d33" stroke-width="3" stroke-linecap="round">
-            <path d="M60 60 Q 75 70 92 64" fill="none"/>
-            <line x1="68" y1="56" x2="70" y2="70"/>
-            <line x1="80" y1="60" x2="81" y2="73"/>
+          <g transform="translate(84 67.1) scale(1.32)">
+            <g class="seal-squid" filter="url(#seal-bloom)">
+              <use href="#sz-body" width="100" height="128"/>
+              <circle class="pupil" data-eye-x="42.1" data-eye-y="68.6" cx="42.1" cy="68.9" r="1.95"/><circle class="pupil" data-eye-x="57.9" data-eye-y="68.6" cx="57.9" cy="68.9" r="1.95"/>
+            </g>
           </g>
-
-          <!-- eyes -->
-          <g>
-            <circle cx="78" cy="105" r="20" fill="#f4fff9"/>
-            <circle cx="126" cy="105" r="20" fill="#f4fff9"/>
-            <circle class="pupil" data-eye-x="78" data-eye-y="105" cx="78" cy="105" r="9" fill="#0b1420"/>
-            <circle class="pupil" data-eye-x="126" data-eye-y="105" cx="126" cy="105" r="9" fill="#0b1420"/>
-          </g>
-
-          <!-- one droopy zombie eyelid -->
-          <path d="M106 92 A 20 20 0 0 1 146 96 L 106 96 Z" fill="#2aa78b" opacity="0.9"/>
         </svg>
-      </div>
-
-      <h1 class="title">SQUID<span class="title-zombie">ZOMBIE</span></h1>
-      <p class="tagline">risen from the deep &middot; max's corner of the abyss</p>
-
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#experiments">enter the lab</a>
-        <a class="btn btn-ghost" href="work/">see the work</a>
-        <a class="btn btn-ghost" href="#about">who lurks here</a>
-      </div>
-    </section>
-
-    <section id="experiments" class="section">
-      <h2><span class="section-num">01</span> Experiments</h2>
-      <p class="section-blurb">Things built in the dark. Some glow. Some bite. New specimens surface here as they're created.</p>
-      <div class="card-grid">
-        <a class="card" href="experiments/tentacle-garden/">
-          <div class="card-tag">SPECIMEN 001</div>
-          <h3>Tentacle Garden</h3>
-          <p>A generative art toy. Click and drag to plant glowing tentacles; they grow, curl, and sway in the current. Auto-grow mode included.</p>
-        </a>
-        <a class="card" href="experiments/abyssal-sonar/">
-          <div class="card-tag">SPECIMEN 002</div>
-          <h3>Abyssal Sonar</h3>
-          <p>Type or click and the deep echoes back. Every key has its own bearing and its own ping. Sometimes the sweep finds things you didn't put there.</p>
-        </a>
-        <a class="card" href="experiments/feed-the-squid/">
-          <div class="card-tag">SPECIMEN 003</div>
-          <h3>Feed the Squid</h3>
-          <p>An arcade snack break. The zombie squid follows your cursor — eat glowing plankton, chain combos, dodge the jellyfish. Three stings and the deep reclaims you.</p>
-        </a>
-        <a class="card" href="experiments/slimeball/">
-          <div class="card-tag">SPECIMEN 004</div>
-          <h3>SLIMEBALL</h3>
-          <p>Blob volleyball against a ladder of sixteen rivals, from a sleepy backyard puddle to the summit. Learn their tells, earn their trophies. Arrow keys or thumbs.</p>
-        </a>
-        <a class="card card-empty" href="#">
-          <div class="card-tag">SPECIMEN 005</div>
-          <h3>???</h3>
-          <p>The trench goes deeper. Something new is always forming.</p>
-        </a>
       </div>
     </section>
 
     <section id="work" class="section">
-      <h2><span class="section-num">02</span> Work</h2>
-      <p class="section-blurb">Things that made it all the way to the surface, and one still rising.</p>
-      <div class="work-cards">
-        <a class="card work-card" href="work/#sable">
-          <img class="work-card-icon" src="work/sable/icon.jpg" width="256" height="256" alt="">
-          <div>
-            <div class="card-tag">ON THE APP STORE</div>
-            <h3>Sable Budget</h3>
-            <p>A calm budget for iPhone that you keep by hand. Private by design: no bank connections, no account, no data collected.</p>
-            <span class="work-card-cta">See the work →</span>
+      <h2><span class="section-num">01</span> Selected work</h2>
+      <p class="section-blurb">Two shipped, one still rising. Each one has the full story on the <a href="work/">Work page</a>.</p>
+
+      <article class="case case-sable">
+        <div class="case-body">
+          <div class="case-head">
+            <img class="case-icon" src="work/sable/icon.jpg" width="256" height="256" alt="">
+            <div class="card-tag">IPHONE APP &middot; ON THE APP STORE</div>
           </div>
-        </a>
-        <a class="card work-card" href="work/#flowtime">
-          <img class="work-card-icon" src="work/flowtime/icon.jpg" width="256" height="256" alt="">
-          <div>
-            <div class="card-tag">SHARED PRIVATELY</div>
-            <h3>FlowTime</h3>
-            <p>Focus timers that make starting easy, gentle reminders, and a time log for work timesheets, in four very different looks.</p>
-            <span class="work-card-cta">See the work →</span>
+          <h3 class="case-title"><a class="case-link" href="work/#sable">Sable Budget</a></h3>
+          <p class="case-lede">A calm budget you keep by hand: a big keypad, monthly envelopes, savings buckets, and a quiet sense of what’s left.</p>
+          <ul class="case-facts">
+            <li>Data Not Collected</li>
+            <li>Zero network calls</li>
+            <li>Since August 2026</li>
+          </ul>
+          <div class="case-ctas">
+            <span class="case-cta">See the project <span class="arrow">→</span></span>
+            <a class="case-ext" href="https://apps.apple.com/us/app/sable-budget/id6796062161">App Store ↗</a>
           </div>
-        </a>
-        <a class="card work-card" href="work/#squid">
-          <div class="wip-mark" aria-hidden="true"><span></span></div>
-          <div>
-            <div class="card-tag">IN PROGRESS</div>
-            <h3>Squid</h3>
-            <p>One AI, one continuous life, built to last for years, with a permanent memory no update or model swap can quietly rewrite.</p>
-            <span class="work-card-cta">See the work →</span>
+        </div>
+        <div class="case-visual phones" aria-hidden="true">
+          <img src="work/sable/screen-2.jpg" width="460" height="999" alt="" loading="lazy">
+          <img src="work/sable/screen-4.jpg" width="460" height="999" alt="" loading="lazy">
+          <img src="work/sable/screen-1.jpg" width="460" height="999" alt="" loading="lazy">
+        </div>
+      </article>
+
+      <article class="case case-flow case-flip">
+        <div class="case-body">
+          <div class="case-head">
+            <img class="case-icon" src="work/flowtime/icon.jpg" width="256" height="256" alt="">
+            <div class="card-tag">DESKTOP APP &middot; WINDOWS + MAC</div>
           </div>
-        </a>
+          <h3 class="case-title"><a class="case-link" href="work/#flowtime">FlowTime</a></h3>
+          <p class="case-lede">Focus timers that make starting easy, reminders that know when to stop, and a time log that becomes your timesheet. In four very different looks.</p>
+          <ul class="case-facts">
+            <li>Four looks, one engine</li>
+            <li>Never goes online</li>
+            <li>Version 1.1</li>
+          </ul>
+          <div class="case-ctas">
+            <span class="case-cta">See the project <span class="arrow">→</span></span>
+            <span class="case-note">Shared privately for now</span>
+          </div>
+        </div>
+        <div class="case-visual windows" aria-hidden="true">
+          <img style="--i: 0" src="work/flowtime/screen-1.jpg" width="1200" height="762" alt="" loading="lazy">
+          <img style="--i: 1" src="work/flowtime/screen-3.jpg" width="1200" height="762" alt="" loading="lazy">
+          <img style="--i: 2" src="work/flowtime/screen-4.jpg" width="1200" height="762" alt="" loading="lazy">
+          <img style="--i: 3" src="work/flowtime/screen-2.jpg" width="1200" height="762" alt="" loading="lazy">
+        </div>
+      </article>
+
+      <article class="case case-squid">
+        <div class="case-body">
+          <div class="case-head">
+            <div class="wip-mark case-icon" aria-hidden="true"><span></span></div>
+            <div class="card-tag">IN PROGRESS &middot; PERSONAL AI</div>
+          </div>
+          <h3 class="case-title"><a class="case-link" href="work/#squid">Squid</a></h3>
+          <p class="case-lede">One AI, one continuous life, built to last for years, with a permanent memory no update or model swap can quietly rewrite.</p>
+          <div class="case-progress">
+            <ol class="mini-road" aria-hidden="true">
+              <li class="done"></li><li class="done"></li><li class="done"></li><li class="done"></li><li class="now"></li><li></li><li></li>
+            </ol>
+            <p><b>4 of 7</b> milestones built &middot; now on context assembly</p>
+          </div>
+          <ul class="case-facts">
+            <li>Hash-chained memory</li>
+            <li>Runs on local models</li>
+            <li>~8,000 tests</li>
+          </ul>
+          <div class="case-ctas">
+            <span class="case-cta">See the project <span class="arrow">→</span></span>
+          </div>
+        </div>
+        <div class="case-visual">
+          <figure class="ledger" data-ledger>
+            <div class="ledger-bar"><span class="ledger-live"></span>append-only record</div>
+            <ol class="ledger-list" aria-hidden="true"></ol>
+            <figcaption>Illustration only, starring Tock, the fictional stand-in Squid’s tests use. Each hash is computed live from the entry and the hash before it.</figcaption>
+          </figure>
+        </div>
+      </article>
+    </section>
+
+    <section id="approach" class="section">
+      <h2><span class="section-num">02</span> How I build</h2>
+      <p class="section-blurb">Different apps, the same few rules.</p>
+      <div class="tenets">
+        <div class="tenet">
+          <span class="tenet-num" aria-hidden="true">i.</span>
+          <h3>Your data stays with you</h3>
+          <p>Nothing here has an account, a tracker or a server. Sable makes zero network calls, FlowTime never connects to the internet, and Squid is built to live on a single Mac.</p>
+        </div>
+        <div class="tenet">
+          <span class="tenet-num" aria-hidden="true">ii.</span>
+          <h3>Calm beats clever</h3>
+          <p>No streaks, scores or charts screaming at you. Plain words, reminders that know when to stop, and nothing on screen that calls you late.</p>
+        </div>
+        <div class="tenet">
+          <span class="tenet-num" aria-hidden="true">iii.</span>
+          <h3>Promise only what the code does</h3>
+          <p>“Not read by default,” not “unreadable.” Every claim about privacy or permanence has to be true of the code, and then the code gets built to keep it true.</p>
+        </div>
       </div>
     </section>
 
     <section id="about" class="section">
       <h2><span class="section-num">03</span> About</h2>
-      <p class="section-blurb">
-        This is the personal site of Max — part playground, part portfolio, part science
-        experiment gone wrong in the best way. It's built collaboratively with Claude,
-        which means the site itself is one of the experiments. Expect it to mutate.
-      </p>
+      <div class="about">
+        <div class="about-text">
+          <p class="about-lead">I’m Max. Squidzombie is my workshop: small apps for problems I actually have, made for myself first and then for the people around me.</p>
+          <p>I design them and make the calls. Claude writes much of the code, so a big part of my job is checking its work: written plans before code, adversarial reviews that go hunting for bugs, and tests that prove each fix stays fixed.</p>
+          <p>This site is built the same way, so expect it to keep mutating.</p>
+        </div>
+        <dl class="spec">
+          <div><dt>Shipped</dt><dd>Sable Budget (iPhone) &middot; FlowTime (Windows + Mac)</dd></div>
+          <div><dt>Building</dt><dd>Squid, a continuous local AI</dd></div>
+          <div><dt>Stack</dt><dd>TypeScript &middot; React Native &middot; Electron &middot; Python &middot; SQLite</dd></div>
+          <div><dt>Built with</dt><dd>Claude, as the engineer</dd></div>
+          <div><dt>Find me</dt><dd><a href="https://github.com/squidzombie">GitHub ↗</a></dd></div>
+        </dl>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>&copy; 2026 squidzombie.com &middot; assembled in the abyss with 🦑 + 🧟</p>
+    <svg class="footer-mark" viewBox="25 1 50 124" aria-hidden="true"><use href="#sz-mark" width="100" height="128"/></svg>
+    <p>&copy; 2026 Squidzombie &middot; made in the deep &middot; <a href="experiments/">The archive</a></p>
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/ledger.js"></script>
 </body>
 </html>
