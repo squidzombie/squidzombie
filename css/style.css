@@ -1510,7 +1510,8 @@ body {
 .case:hover .phones img:nth-child(2) { transform: translate(-50%, -50%) translateX(122px) rotate(12deg) scale(0.84); filter: brightness(0.85); }
 .case:hover .phones img:nth-child(3) { transform: translate(-50%, -50%) translateY(-6px); }
 
-/* FlowTime: its four looks stacked like windows on a desk */
+/* FlowTime: a day with it, stacked like windows on a desk: the timer in
+   front, with the start screen, the time's-up alert and the timesheet behind */
 .windows { --step-x: 30px; --step-y: 24px; height: 340px; perspective: 1400px; }
 
 .windows img {
