@@ -26,7 +26,7 @@ Private software, risen from the deep. Expect it to mutate.
   deploy replaces it. Its card (SPECIMEN 004) lives in `experiments/index.html`.
 - `games/` — the Games page (in the header nav on every page). One case card
   per game, built like the homepage's; card screenshots live in `games/img/`
-- `games/imhit/` — build output of IMHIT, published from the private `IMHIT`
+- `games/imhit/` — build output of IMHIT (shown to players as IM HIT!), published from the private `IMHIT`
   repo with `npm run deploy:site`. Don't hand-edit: every deploy replaces it.
   Its card lives in `games/index.html`.
 
