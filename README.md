@@ -24,6 +24,9 @@ Private software, risen from the deep. Expect it to mutate.
 - `experiments/slimeball/` — build output of SLIMEBALL, published from the
   private `SlimeBall` repo with `npm run deploy:site`. Don't hand-edit: every
   deploy replaces it. Its card (SPECIMEN 004) lives in `experiments/index.html`.
+- `experiments/imhit/` — build output of IMHIT, published from the private
+  `IMHIT` repo with `npm run deploy:site`. Don't hand-edit: every deploy
+  replaces it. Its card (SPECIMEN 005) lives in `experiments/index.html`.
 
 ## The logo
 

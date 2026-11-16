@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A physics toy with a career. Hit a test dummy once and get paid for what happens next. A prototype; contains blood.">
+<meta name="theme-color" content="#2b3540">
+<meta property="og:title" content="IMHIT">
+<meta property="og:description" content="One hit. Then watch what happens. A physics toy with a career.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>IMHIT — one hit, then watch what happens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  /* Layout: one full-screen test yard. HUD sits in the corners like stencilled site signage; the centre stays clear for the stagger. */
+  /* Single committed look (a concrete yard at dusk), so every colour is set explicitly. */
+  :root {
+    color-scheme: dark;
+    --sky: #2b3540;          /* fog and backdrop, slate with a blue bias */
+    --concrete: #8d949b;
+    --ink: #f1efe9;          /* HUD text, warm white */
+    --ink-dim: #a9b0b6;
+    --panel: rgba(24, 30, 37, 0.78);
+    --line: rgba(241, 239, 233, 0.16);
+    --hazard: #ff7a1a;       /* safety orange: the dummy and the one accent */
+    --hazard-ink: #1b1206;
+    --blood: #b3151c;        /* the blood gauge; darker reds in the scene are derived in game.js */
+    --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+    --font-body: Inter, system-ui, "Segoe UI", sans-serif;
+    --font-data: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+    --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  }
+  html, body { height: 100%; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--sky); color: var(--ink); font-family: var(--font-body); overflow: hidden; }
+  #app { position: relative; height: 100%; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+  #view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+
+  .hud { position: absolute; pointer-events: none; }
+  .hud > * { pointer-events: auto; }
+  .brand { top: 14px; left: var(--gutter-l); display: flex; flex-direction: column; gap: 2px; }
+  .brand h1 { margin: 0; font: 900 34px/0.9 var(--font-display); letter-spacing: 0.04em; }
+  .brand h1 span { color: var(--hazard); }
+  .brand p { margin: 0; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+  .bank { margin-top: 10px; font: 700 20px/1 var(--font-data); font-variant-numeric: tabular-nums; }
+  .bank small { display: block; margin-bottom: 4px; font: 500 10px/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+
+  .levels { display: flex; gap: 4px; margin-top: 10px; }
+  .level { min-height: 34px; padding: 4px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; cursor: pointer; font: 700 15px/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+  .level[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #171b20; }
+  .level:focus-visible { outline: 2px solid var(--hazard); outline-offset: 2px; }
+  .brand .blurb { margin-top: 4px; font-size: 11px; letter-spacing: 0.02em; text-transform: none; color: var(--ink-dim); max-width: 22ch; }
+  .stars { margin-left: 6px; font: 700 13px/1 var(--font-data); color: var(--hazard); }
+  .modes { display: flex; gap: 4px; margin-top: 10px; }
+  .level:disabled { opacity: 0.5; cursor: default; }
+  .pips { display: flex; align-items: center; gap: 6px; min-height: 16px; }
+  .pip-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+  .pip { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); box-sizing: border-box; }
+  .pip.on { background: var(--hazard); border-color: var(--hazard); }
+  .pips.nudge { animation: nudge 0.25s; }
+  @keyframes nudge { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  .hint b { margin-right: 6px; font: 700 13px/1 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--hazard); }
+  .hint { color: var(--ink); }
+  .hint span { margin-left: 6px; color: var(--ink-dim); font: 500 11px/1 var(--font-data); }
+  .util.ready { border-color: var(--hazard); color: var(--hazard); }
+  .result-goals { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 4px; text-align: left; font-size: 12px; }
+  .result-goals:empty { display: none; }
+  .result-goals li { display: flex; gap: 8px; align-items: baseline; }
+  .result-goals span { width: 1em; color: var(--hazard); font-weight: 700; }
+  .result-goals em { margin-left: auto; padding-left: 12px; font: 700 12px/1 var(--font-data); font-style: normal; color: var(--hazard); }
+  .result-goals .save-for { color: var(--ink-dim); }
+  .result-goals .save-for span { color: var(--ink-dim); }
+  .result-actions { display: flex; gap: 8px; justify-content: center; align-items: stretch; }
+  .shop { inset: 0; display: flex; justify-content: flex-end; background: rgba(12, 15, 19, 0.55); pointer-events: auto; z-index: 5; }
+  .shop[hidden] { display: none; }
+  .shop-card { width: min(430px, 100%); height: 100%; display: flex; flex-direction: column; background: #1b2128; border-left: 1px solid var(--line); box-sizing: border-box; }
+  .shop-card header, .shop-card footer { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px 16px; border-bottom: 1px solid var(--line); }
+  .shop-card footer { border-bottom: 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .shop-card h2 { margin: 0; font: 900 26px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+  .shop-card header p { margin: 4px 0 0; font: 500 12px/1.2 var(--font-data); color: var(--ink-dim); }
+  .shop-list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px max(16px, env(safe-area-inset-right, 0px)) 16px 16px; }
+  .shop-list h3 { margin: 16px 0 6px; font: 500 10px/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+  .shop-list h4 { margin: 10px 0 4px; font: 700 15px/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+  .item { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); }
+  .item > div { min-width: 0; }
+  .item b { font: 700 17px/1 var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; }
+  .item p { margin: 3px 0 0; font-size: 12px; line-height: 1.35; color: var(--ink-dim); }
+  .item.owned b, .item.owned p { color: var(--ink-dim); }
+  .tag { font: 500 11px/1 var(--font-data); color: var(--ink-dim); }
+  .buy { flex: none; min-width: 84px; min-height: 40px; padding: 6px 10px; background: var(--hazard); color: var(--hazard-ink); border: 0; border-radius: 4px; cursor: pointer; font: 700 14px/1.1 var(--font-data); }
+  .buy small { display: block; font: 500 9px/1.2 var(--font-body); }
+  .buy:disabled { background: transparent; color: var(--ink-dim); border: 1px solid var(--line); cursor: default; }
+  .buy:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .goals { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  .goals li { display: flex; gap: 8px; padding: 3px 0; color: var(--ink-dim); }
+  .goals li.got { color: var(--ink); }
+  .goals span { color: var(--hazard); }
+  .goals em { margin-left: auto; font: 500 12px/1.4 var(--font-data); font-style: normal; }
+  .intro { inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px var(--gutter-r) 16px var(--gutter-l); background: rgba(12, 15, 19, 0.6); pointer-events: auto; z-index: 6; }
+  .intro[hidden] { display: none; }
+  .intro-card { max-width: 360px; padding: 22px 24px; background: #1b2128; border: 1px solid var(--line); border-radius: 4px; }
+  .intro-card h2 { margin: 0; font: 900 44px/0.9 var(--font-display); letter-spacing: 0.04em; }
+  .intro-card h2 span { color: var(--hazard); }
+  .intro-card .lede { margin: 8px 0 14px; font: 700 20px/1.1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+  .intro-card ul { margin: 0 0 18px; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4; }
+  .intro-card small { display: block; margin-top: 14px; font-size: 11px; line-height: 1.4; color: var(--ink-dim); }
+  .take { top: 14px; right: var(--gutter-r); min-width: 172px; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
+  .vital { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .vital .track { flex: 1; height: 8px; background: rgba(241, 239, 233, 0.12); border-radius: 2px; overflow: hidden; }
+  .vital .fill { height: 100%; width: 100%; background: var(--blood); transition: width 0.12s linear; }
+  .vital b { font: 700 12px/1 var(--font-data); font-variant-numeric: tabular-nums; min-width: 4ch; text-align: right; }
+  .condition { margin: 0 0 8px; font: 700 15px/1.1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); min-height: 1.1em; }
+  .take h2 { margin: 0 0 6px; font: 500 10px/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+  .take table { border-collapse: collapse; width: 100%; font: 500 12px/1.5 var(--font-data); font-variant-numeric: tabular-nums; }
+  .take td { padding: 0; }
+  .take td:first-child { font-family: var(--font-body); color: var(--ink-dim); }
+  .take td:nth-child(2) { text-align: right; padding: 0 10px; color: var(--ink-dim); }
+  .take td:last-child { text-align: right; }
+  .take tfoot td { padding-top: 5px; border-top: 1px solid var(--line); font-weight: 700; font-size: 14px; color: var(--ink); }
+  .take tfoot td:last-child { color: var(--hazard); }
+
+  .bar { left: var(--gutter-l); right: var(--gutter-r); bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .hint { margin: 0; font-size: 12px; color: var(--ink-dim); text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+  .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; max-width: 100%; }
+  .tools, .utils { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 100%; }
+  .hint small { display: block; margin-top: 3px; font-size: 11px; color: var(--ink-dim); }
+  button { font: inherit; color: inherit; }
+  .tool, .util {
+    min-height: 44px; padding: 6px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+    cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px;
+  }
+  .tool b { font: 700 18px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+  .tool i { font: 500 10px/1.2 var(--font-data); font-style: normal; color: var(--ink-dim); }
+  .tool[aria-pressed="true"] { background: var(--hazard); border-color: var(--hazard); color: var(--hazard-ink); }
+  .tool[aria-pressed="true"] i { color: var(--hazard-ink); }
+  .util { align-items: center; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+  .util[aria-pressed="true"] { border-color: var(--hazard); color: var(--hazard); }
+  .tool:focus-visible, .util:focus-visible, .next:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .sep { width: 1px; align-self: stretch; background: var(--line); margin: 0 4px; }
+
+  /* sits in the upper part of the screen so it never covers the body, which the camera keeps centred */
+  .result { inset: 0; display: flex; align-items: flex-start; justify-content: center; padding: 11vh var(--gutter-r) 0 var(--gutter-l); pointer-events: none; }
+  .result[hidden] { display: none; }
+  .result-card { pointer-events: auto; text-align: center; padding: 14px 24px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
+  .result-card small { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim); }
+  .result-card strong { display: block; margin: 2px 0 2px; font: 900 54px/1 var(--font-display); color: var(--hazard); font-variant-numeric: tabular-nums; }
+  .result-card em { display: block; margin-bottom: 10px; font: 500 12px/1.3 var(--font-data); font-style: normal; color: var(--ink-dim); }
+  .next { min-height: 44px; padding: 8px 22px; background: var(--hazard); color: var(--hazard-ink); border: 0; border-radius: 4px; cursor: pointer; font: 700 20px/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .callout { position: absolute; left: 0; top: 0; pointer-events: none; white-space: nowrap; font: 900 22px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-shadow: 0 2px 0 rgba(0,0,0,0.55), 0 0 12px rgba(0,0,0,0.5); will-change: transform, opacity; }
+  .callout.big { font-size: 34px; color: var(--hazard); }
+  .loading { inset: 0; display: flex; align-items: center; justify-content: center; font: 700 22px/1 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); text-align: center; padding: 0 24px; }
+
+  @media (max-width: 560px) {
+    .brand h1 { font-size: 26px; }
+    .levels { flex-wrap: wrap; max-width: 150px; }
+    .level { min-height: 32px; padding: 4px 8px; font-size: 14px; }
+    .brand .blurb { display: none; }
+    .take { min-width: 0; padding: 8px 10px; }
+    .take table { font-size: 11px; }
+    .tool { padding: 6px 10px; }
+    .tool b { font-size: 16px; }
+    /* one row of tools you can slide, so six of them do not eat the screen */
+    .tools { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tools::-webkit-scrollbar { display: none; }
+    .tool { flex: none; }
+    .util { min-height: 40px; padding: 4px 12px; }
+    .result-card strong { font-size: 44px; }
+    .result { padding-top: 250px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="view" aria-label="Test dummy standing on its mark in the chosen level"></canvas>
+
+  <div class="hud brand">
+    <h1>IM<span>HIT</span></h1>
+    <div class="bank"><small>Banked</small><span id="bank">$0</span> <span class="stars" id="stars">★ 0 / 12</span></div>
+    <div class="modes" role="group" aria-label="Mode">
+      <button class="level" id="mode-career" type="button" aria-pressed="true">Career</button>
+      <button class="level" id="mode-free" type="button" aria-pressed="false">Free play</button>
+    </div>
+    <div class="levels" id="levels" role="group" aria-label="Level"></div>
+    <p class="blurb" id="level-blurb"></p>
+  </div>
+
+  <div class="hud take" aria-live="off">
+    <h2>Blood</h2>
+    <div class="vital"><div class="track"><div class="fill" id="blood-fill"></div></div><b id="blood-num">100%</b></div>
+    <p class="condition" id="condition">Standing</p>
+    <h2>This take</h2>
+    <table>
+      <tbody id="lines"></tbody>
+      <tfoot><tr><td>Payout</td><td></td><td id="total">$0</td></tr></tfoot>
+    </table>
+  </div>
+
+  <div class="hud result" id="result" hidden>
+    <div class="result-card">
+      <small id="result-label">Take over</small>
+      <strong id="result-total">$0</strong>
+      <em id="result-note"></em>
+      <ul class="result-goals" id="result-goals"></ul>
+      <div class="result-actions">
+        <button class="next" id="next" type="button">Next take</button>
+        <button class="util" id="result-shop" type="button">Shop</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud bar">
+    <p class="hint" id="hint"></p>
+    <div class="pips" id="pips" aria-live="polite"></div>
+    <div class="row">
+    <div class="tools" id="tools"></div>
+    <div class="utils">
+      <button class="util" id="shop-open" type="button">Shop</button>
+      <button class="util" id="slow" type="button" aria-pressed="false">Slow-mo</button>
+      <button class="util" id="sound" type="button" aria-pressed="true">Sound</button>
+      <button class="util" id="reset" type="button">Reset</button>
+    </div>
+    </div>
+  </div>
+
+  <div class="hud shop" id="shop" hidden>
+    <div class="shop-card" role="dialog" aria-label="Shop and goals">
+      <header>
+        <div><h2>Shop</h2><p id="shop-bank"></p></div>
+        <button class="util" id="shop-close" type="button">Close</button>
+      </header>
+      <div class="shop-list" id="shop-list"></div>
+      <footer>
+        <button class="util" id="unlock-all" type="button">Unlock everything (testing)</button>
+        <button class="util" id="wipe" type="button">Erase progress</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="hud intro" id="intro" hidden>
+    <div class="intro-card" role="dialog" aria-label="How to play">
+      <h2>IM<span>HIT</span></h2>
+      <p class="lede">One hit. Then watch what happens.</p>
+      <ul>
+        <li>Tap the dummy where you want to hit him.</li>
+        <li>You get paid for what follows: every stumble, every fall.</li>
+        <li>Spend it in the Shop on better tools and more hits per take.</li>
+        <li>Drag to look around.</li>
+      </ul>
+      <button class="next" id="intro-start" type="button">Start</button>
+      <small>A prototype. Contains blood and violence against a test dummy. Progress is saved in this browser.</small>
+    </div>
+  </div>
+
+  <div class="hud loading" id="loading">Loading physics…</div>
+</div>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
