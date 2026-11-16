@@ -100,9 +100,22 @@
   .pip.on { background: var(--hazard); border-color: var(--hazard); }
   .pips.nudge { animation: nudge 0.25s; }
   @keyframes nudge { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-  .dock-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-  .tool-note { min-width: 0; font: 500 11px/1.2 var(--font-data); color: var(--ink-dim); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .quick { margin-left: auto; display: flex; gap: 6px; }
+  /* the tool picker: one button that opens the list upward (phones; wide screens show the whole row) */
+  .picker { position: relative; flex: 1; min-width: 0; }
+  .pick { width: 100%; box-sizing: border-box; position: relative; padding-right: 30px; background: var(--hazard); border-color: var(--hazard); color: var(--hazard-ink); }
+  .tool.pick i { color: var(--hazard-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .pick::after { content: ""; position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; margin-top: -2px; border-left: 2px solid var(--hazard-ink); border-top: 2px solid var(--hazard-ink); transform: rotate(45deg); }
+  .pick.single { padding-right: 14px; cursor: default; }
+  .pick.single::after { display: none; }
+  .pick-list { position: absolute; left: 0; bottom: calc(100% + 6px); width: min(290px, calc(100vw - 32px)); max-height: 62vh; overflow-y: auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 6px; background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; z-index: 4; }
+  .pick-list .tool { background: transparent; }
+  .pick-list .tool[aria-pressed="true"] { background: var(--hazard); }
+  /* the countdown to the take being called, where the result card is about to appear */
+  .wrap { left: 50%; top: 11vh; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 7px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; white-space: nowrap; }
+  .wrap span { font: 500 10px/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+  .wrap i { display: block; width: 110px; height: 5px; background: rgba(241, 239, 233, 0.14); border-radius: 3px; overflow: hidden; }
+  .wrap b { display: block; height: 100%; width: 0; background: var(--hazard); }
   .quick .util { min-height: 36px; padding: 4px 12px; }
   .tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 100%; }
   .tool { align-items: flex-start; }
@@ -177,7 +190,7 @@
   .loading { inset: 0; display: flex; align-items: center; justify-content: center; font: 700 22px/1 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); text-align: center; padding: 0 24px; }
 
   /* wide screens: the tool's description sits on its button, so the caption line is not needed */
-  @media (min-width: 561px) { .tool-note { display: none; } }
+  @media (min-width: 561px) { .picker { display: none; } }
 
   /* ---- phone ---- */
   @media (max-width: 560px) {
@@ -199,12 +212,14 @@
     .result-card { padding: 12px 18px 14px; width: 100%; max-width: 340px; box-sizing: border-box; }
     .result-card strong { font-size: 44px; }
     .result-lines { display: table; }
-    /* six tools share one row; the chosen one is described in the line above */
+    /* one row: the tool you are holding (tap it for the others), your actions, and the two switches */
     .bar { gap: 7px; bottom: 12px; }
-    .tools { flex-wrap: nowrap; width: 100%; gap: 4px; }
-    .tool { flex: 1 1 auto; min-width: 0; max-width: 130px; align-items: center; padding: 6px 4px; min-height: 46px; }
-    .tool b { font-size: 15px; letter-spacing: 0.03em; }
-    .tool i { display: none; }
+    .tools { display: none; }
+    .dock { gap: 8px; }
+    .pick { min-height: 48px; padding-left: 12px; }
+    .pip-label:not(.free) { display: none; }
+    .quick .util { min-height: 48px; padding: 4px 11px; }
+    .wrap { top: 118px; }
   }
   @media (max-width: 350px) { .mark { display: none; } }
 </style>
@@ -236,6 +251,8 @@
     </div>
   </div>
 
+  <div class="hud wrap" id="wrap" hidden><span>Wrapping up</span><i><b id="wrap-fill"></b></i></div>
+
   <div class="hud result" id="result" hidden>
     <div class="result-card">
       <small id="result-label">Take over</small>
@@ -253,10 +270,11 @@
   <div class="hud bar">
     <p class="hint" id="hint"></p>
     <div class="dock">
-      <div class="dock-left">
-        <div class="pips" id="pips" aria-live="polite"></div>
-        <span class="tool-note" id="tool-note"></span>
+      <div class="picker">
+        <button class="tool pick" id="pick" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Choose a tool"><b id="pick-name">Poke</b><i id="pick-note">one finger</i></button>
+        <div class="pick-list" id="pick-list" hidden></div>
       </div>
+      <div class="pips" id="pips" aria-live="polite"></div>
       <div class="quick">
         <button class="util" id="slow" type="button" aria-pressed="false">Slow-mo</button>
         <button class="util" id="reset" type="button">Reset</button>
