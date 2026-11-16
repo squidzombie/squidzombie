@@ -1385,6 +1385,7 @@ body {
 
 .case-flow { --tone: 255, 138, 61; --tone-ink: #ffb27a; }
 .case-squid { --tone: 138, 108, 255; --tone-ink: #b3a2ff; }
+.case-imhit { --tone: 255, 122, 26; --tone-ink: #ffa866; }   /* the test dummy's safety orange */
 
 .case-flip { grid-template-columns: 1.05fr 1fr; }
 .case-flip .case-visual { order: -1; }

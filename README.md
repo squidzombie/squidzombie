@@ -24,9 +24,11 @@ Private software, risen from the deep. Expect it to mutate.
 - `experiments/slimeball/` — build output of SLIMEBALL, published from the
   private `SlimeBall` repo with `npm run deploy:site`. Don't hand-edit: every
   deploy replaces it. Its card (SPECIMEN 004) lives in `experiments/index.html`.
-- `experiments/imhit/` — build output of IMHIT, published from the private
-  `IMHIT` repo with `npm run deploy:site`. Don't hand-edit: every deploy
-  replaces it. Its card (SPECIMEN 005) lives in `experiments/index.html`.
+- `games/` — the Games page (in the header nav on every page). One case card
+  per game, built like the homepage's; card screenshots live in `games/img/`
+- `games/imhit/` — build output of IMHIT, published from the private `IMHIT`
+  repo with `npm run deploy:site`. Don't hand-edit: every deploy replaces it.
+  Its card lives in `games/index.html`.
 
 ## The logo
 
@@ -35,7 +37,7 @@ and a long curling tentacle per side. Each page carries it inline as two SVG
 `<symbol>`s at the top of `<body>`: `sz-body` (eye sockets open) and
 `sz-mark` (with pupils). The header and footer use `sz-mark`; the homepage
 seal uses `sz-body` plus its own pupils so they can follow the cursor. If the
-mark changes, update all three pages' sprites and `favicon.svg` together.
+mark changes, update every page's sprites (home, Work, Games, the archive) and `favicon.svg` together.
 
 ## Running locally
 
