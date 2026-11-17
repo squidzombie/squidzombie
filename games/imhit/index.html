@@ -30,7 +30,7 @@
     --line: rgba(241, 239, 233, 0.16);
     --hazard: #ff7a1a;       /* safety orange: the dummy and the one accent */
     --hazard-ink: #1b1206;
-    --blood: #b3151c;        /* the blood gauge; darker reds in the scene are derived in game.js */
+    --blood: #b3151c;        /* the gauge; game.js sets it, and the colours in the scene, from the edition */
     --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
     --font-body: Inter, system-ui, "Segoe UI", sans-serif;
     --font-data: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -187,6 +187,7 @@
 
   .callout { position: absolute; left: 0; top: 0; pointer-events: none; white-space: nowrap; font: 900 22px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-shadow: 0 2px 0 rgba(0,0,0,0.55), 0 0 12px rgba(0,0,0,0.5); will-change: transform, opacity; }
   .callout.big { font-size: 34px; color: var(--hazard); }
+  .fps { left: var(--gutter-l); bottom: 2px; font: 500 9px/1 var(--font-data); color: var(--ink-dim); text-shadow: 0 1px 2px #000; white-space: nowrap; }
   .loading { inset: 0; display: flex; align-items: center; justify-content: center; font: 700 22px/1 var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); text-align: center; padding: 0 24px; }
 
   /* wide screens: the tool's description sits on its button, so the caption line is not needed */
@@ -239,7 +240,7 @@
 
   <div class="hud side">
     <div class="vitals">
-      <div class="vital"><small>Blood</small><div class="track"><div class="fill" id="blood-fill"></div></div><b id="blood-num">100%</b></div>
+      <div class="vital"><small id="gauge-label">Blood</small><div class="track"><div class="fill" id="blood-fill"></div></div><b id="blood-num">100%</b></div>
       <div class="status">
         <p class="condition" id="condition">Standing</p>
         <p class="live"><span>Payout</span><b id="total">$0</b></p>
@@ -324,9 +325,11 @@
         <li>Drag to look around.</li>
       </ul>
       <button class="next" id="intro-start" type="button">Start</button>
-      <small>A prototype. Contains blood and violence against a test dummy. Progress is saved in this browser.</small>
+      <small>A prototype. <span id="intro-note">Contains blood and violence against a test dummy.</span> Progress is saved in this browser.</small>
     </div>
   </div>
+
+  <div class="hud fps" id="fps" hidden></div>
 
   <div class="hud loading" id="loading">Loading physics…</div>
 </div>
