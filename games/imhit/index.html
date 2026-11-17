@@ -155,6 +155,8 @@
   .level[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #171b20; }
   .level[aria-pressed="true"] i { color: #4a5158; }
   .level:disabled { opacity: 0.55; cursor: default; }
+  .soundboard { display: flex; flex-wrap: wrap; gap: 4px; }
+  .soundboard .util { min-height: 36px; padding: 4px 9px; font: 500 11px/1 var(--font-data); }
   .menu-foot { display: flex; gap: 8px; justify-content: space-between; margin-top: 18px; }
   .intro-card h2 { margin: 0; font: 900 44px/0.9 var(--font-display); letter-spacing: 0.04em; }
   .intro-card h2 span { color: var(--hazard); }
@@ -292,6 +294,10 @@
       <div class="modes" role="group" aria-label="Mode">
         <button class="level" id="mode-career" type="button" aria-pressed="true"><b>Career</b><i>Limited hits. Earns cash.</i></button>
         <button class="level" id="mode-free" type="button" aria-pressed="false"><b>Free play</b><i>No limit. Banks nothing.</i></button>
+      </div>
+      <div id="soundboard" hidden>
+        <h3>Sounds (testing)</h3>
+        <div class="soundboard" id="soundboard-list"></div>
       </div>
       <div class="menu-foot">
         <button class="util" id="sound" type="button" aria-pressed="true">Sound on</button>
