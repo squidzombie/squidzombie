@@ -167,6 +167,7 @@
   .card h3:first-child { margin-top: 0; }
   .levels { display: flex; flex-direction: column; gap: 6px; }
   .modes { display: flex; gap: 6px; }
+  #physics { margin-top: 14px; }
   .level { min-height: 44px; padding: 7px 12px; background: transparent; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; text-align: left; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
   .modes .level { flex: 1; }
   .level b { font: 700 18px/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
@@ -319,6 +320,13 @@
       <div class="modes" role="group" aria-label="Mode">
         <button class="level" id="mode-career" type="button" aria-pressed="true"><b>Career</b><i>Limited hits. Earns cash.</i></button>
         <button class="level" id="mode-free" type="button" aria-pressed="false"><b>Free play</b><i>No limit. Banks nothing.</i></button>
+      </div>
+      <div id="physics" hidden>
+        <h3>Physics</h3>
+        <div class="modes" role="group" aria-label="Physics">
+          <button class="level" id="physics-shipped" type="button" aria-pressed="true"><b>Current</b><i>The game as it is.</i></button>
+          <button class="level" id="physics-grounded" type="button" aria-pressed="false"><b>Experiment</b><i>His legs really carry him. Rougher.</i></button>
+        </div>
       </div>
       <div id="soundboard" hidden>
         <h3>Sounds (testing)</h3>
