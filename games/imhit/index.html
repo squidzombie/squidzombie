@@ -137,7 +137,9 @@
   .result-goals em { margin: 0 0 0 auto; padding-left: 12px; font: 700 12px/1 var(--font-data); color: var(--hazard); }
   .result-goals .save-for, .result-goals .save-for span { color: var(--ink-dim); }
   .result-lines { display: none; margin: 0 0 12px; padding-top: 8px; border-top: 1px solid var(--line); }
-  .result-actions { display: flex; gap: 8px; justify-content: center; align-items: stretch; }
+  .result-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: stretch; }
+  #result-go:not([hidden]) + .next { background: var(--panel); color: var(--ink); border: 1px solid var(--line); } /* the new level is the main thing to do */
+  #ff { touch-action: none; }
 
   /* ---- sheets: menu, shop, first visit ---- */
   .sheet { inset: 0; display: flex; background: rgba(12, 15, 19, 0.6); pointer-events: auto; z-index: 5; }
@@ -264,6 +266,7 @@
       <ul class="result-goals" id="result-goals"></ul>
       <table class="lines result-lines"><tbody id="result-lines"></tbody></table>
       <div class="result-actions">
+        <button class="next" id="result-go" type="button" hidden></button>
         <button class="next" id="next" type="button">Next take</button>
         <button class="util" id="result-shop" type="button">Shop</button>
       </div>
@@ -279,7 +282,8 @@
       </div>
       <div class="pips" id="pips" aria-live="polite"></div>
       <div class="quick">
-        <button class="util" id="slow" type="button" aria-pressed="false">Slow-mo</button>
+        <button class="util" id="slow" type="button" aria-pressed="false">Slow</button>
+        <button class="util" id="ff" type="button" aria-pressed="false" aria-label="Hold to fast-forward" title="Hold to fast-forward">▸▸</button>
         <button class="util" id="reset" type="button">Reset</button>
       </div>
     </div>
