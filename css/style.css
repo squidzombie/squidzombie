@@ -947,7 +947,7 @@ body {
 
 .hard-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
@@ -979,8 +979,8 @@ body {
 .wip-now { max-width: 72ch; margin-bottom: 1.75rem; color: var(--ink-dim); line-height: 1.75; }
 
 .roadmap {
-  --done: 4;   /* steps built */
-  --steps: 7;
+  --done: 9;   /* steps built */
+  --steps: 10;
   position: relative;
   list-style: none;
   display: grid;
@@ -1076,6 +1076,8 @@ body {
 @media (max-width: 860px) {
   .wip-intro, .process { grid-template-columns: 1fr; }
   .hard-grid { grid-template-columns: 1fr; }
+  /* lead tile + 9: the last spans the two-column row */
+  .feature-grid-wip .feature:last-child { grid-column: 1 / -1; }
 
   /* the track turns vertical: each step draws its link to the next */
   .roadmap { grid-template-columns: 1fr; }
@@ -1548,7 +1550,7 @@ body {
 .mini-road {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   gap: 4px;
   max-width: 300px;
 }
