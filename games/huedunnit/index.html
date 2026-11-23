@@ -55,7 +55,7 @@
     .bar a:hover, .bar button:hover { color: var(--ink); }
     h1 {
       font-family: "Fraunces", Georgia, serif;
-      font-weight: 600; font-size: 1.9rem; letter-spacing: -0.01em;
+      font-weight: 600; font-size: 1.6rem; letter-spacing: -0.01em;
       text-align: center; margin-top: 0.25rem;
     }
     h1 em { font-style: italic; color: var(--teal); }
@@ -63,62 +63,42 @@
 
     .picker {
       display: flex; align-items: center; justify-content: center; gap: 0.25rem;
-      margin: 0.75rem 0 0.9rem; font-size: 0.9rem; color: var(--ink-dim);
+      margin: 0.25rem 0 0.8rem; font-size: 0.85rem; color: var(--ink-dim);
     }
     .picker button {
       background: none; border: 1px solid var(--line); border-radius: 999px;
-      width: 2.25rem; height: 2.25rem; line-height: 1; font-size: 1rem;
+      width: 2rem; height: 2rem; line-height: 1; font-size: 1rem;
     }
     .picker button:disabled { opacity: 0.3; cursor: default; }
     .picker b { color: var(--ink); min-width: 9.5rem; text-align: center; font-weight: 500; }
 
-    /* ---- the colours ---- */
-    .panel {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: var(--radius); padding: 0.9rem;
+    /* ---- the colours: a small map of the cover beside the bar ---- */
+    .board { display: flex; gap: 0.5rem; height: 6rem; scroll-margin-top: 0.5rem; }
+    .typing .board { height: 4rem; }          /* leave room for suggestions above a phone keyboard */
+    .map {
+      display: grid; grid-template-columns: repeat(3, 1fr); flex: none;
+      height: 100%; border-radius: 10px; overflow: hidden;
     }
-    .label {
-      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--ink-dim); margin-bottom: 0.5rem;
-    }
-    .row { display: flex; height: 5.5rem; border-radius: 10px; overflow: hidden; }
+    .row { display: flex; flex: 1; min-width: 0; border-radius: 10px; overflow: hidden; }
     .row button, .map button { border: 0; padding: 0; min-width: 0; position: relative; }
     .row button.on::after, .map button.on::after {
       content: ""; position: absolute; inset: 3px; border-radius: 6px;
       border: 2px solid #fff; box-shadow: 0 0 0 2px #000 inset, 0 0 0 1px #000;
     }
-    .readout { min-height: 1.5rem; margin-top: 0.45rem; font-size: 0.88rem; color: var(--ink-dim); }
-    .readout b { color: var(--ink); font-weight: 500; }
-
-    .clues { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; margin-top: 0.9rem; align-items: start; }
-    .map {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      width: 6.6rem; aspect-ratio: 3 / 4; border-radius: 10px; overflow: hidden;
+    .status {
+      display: flex; justify-content: space-between; gap: 0.75rem;
+      margin: 0.45rem 0 0.5rem; font-size: 0.82rem; color: var(--ink-dim);
     }
-    .map.locked {
-      display: flex; align-items: center; justify-content: center; text-align: center;
-      border: 1px dashed var(--line); color: var(--ink-dim); font-size: 0.78rem; padding: 0.5rem;
-    }
-    .facts { display: grid; gap: 0.4rem; }
+    .status #readout { color: var(--ink); text-align: right; }
+    .facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+    .facts:empty { display: none; }
     .fact {
-      border: 1px solid var(--line); border-radius: 10px; padding: 0.4rem 0.65rem;
-      font-size: 0.9rem; min-height: 2.35rem; display: flex; gap: 0.5rem; align-items: baseline;
+      border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.65rem;
+      font-size: 0.85rem; color: var(--ink);
     }
-    .fact span { color: var(--ink-dim); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; flex: none; }
-    .fact.locked { border-style: dashed; color: var(--ink-dim); }
-    .fact.locked b { font-weight: 400; font-size: 0.82rem; }
-    .fact b { font-weight: 500; overflow-wrap: anywhere; }
-    .fact.wide b { font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.04em; font-size: 0.82rem; overflow-wrap: normal; }
+    .fact.wide { font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.04em; font-size: 0.8rem; border-radius: 10px; }
 
     /* ---- guessing ---- */
-    .tries { display: flex; justify-content: center; gap: 0.4rem; margin: 1rem 0 0.6rem; }
-    .tries i {
-      width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1.5px solid var(--line);
-      font-style: normal; font-size: 0.8rem; line-height: 1.4rem; text-align: center; color: var(--ink-dim);
-    }
-    .tries i.miss { border-color: var(--miss); color: var(--miss); }
-    .tries i.hit { border-color: var(--green); color: var(--green); }
-
     .entry { position: relative; }
     .entry-row { display: flex; gap: 0.5rem; }
     .entry input {
@@ -138,7 +118,7 @@
       background: #111c2b; border: 1px solid var(--line); border-radius: 12px;
       box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.8);
     }
-    .list li { padding: 0.65rem 0.7rem; border-radius: 8px; cursor: pointer; }
+    .list li { padding: 0.5rem 0.7rem; border-radius: 8px; cursor: pointer; }
     .list li[aria-selected="true"], .list li:hover { background: rgba(61, 251, 216, 0.14); }
     .list small { color: var(--ink-dim); }
 
@@ -175,9 +155,9 @@
     .dist div { display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.5rem; align-items: center; font-size: 0.85rem; color: var(--ink-dim); }
     .dist span { background: rgba(61, 251, 216, 0.25); border-radius: 4px; padding: 0.1rem 0.4rem; min-width: 1.6rem; color: var(--ink); text-align: right; }
 
-    footer { margin-top: 2rem; color: var(--ink-dim); font-size: 0.78rem; text-align: center; line-height: 1.6; }
+    footer { margin-top: 2.5rem; color: var(--ink-dim); font-size: 0.72rem; opacity: 0.8; text-align: center; line-height: 1.6; }
     [hidden] { display: none !important; }
-    @media (max-width: 360px) { .map { width: 5.6rem; } .row { height: 4.75rem; } }
+    @media (max-width: 360px) { .board { height: 5.25rem; } }
   </style>
 </head>
 <body>
@@ -191,8 +171,6 @@
     </div>
 
     <h1>Hue<em>dunnit</em></h1>
-    <p class="tagline">Nine colours from a game’s cover. Name the game.</p>
-
     <div class="picker">
       <button type="button" id="prev" aria-label="Previous puzzle">‹</button>
       <b id="which"></b>
@@ -200,21 +178,12 @@
     </div>
 
     <main>
-      <section class="panel" aria-label="Clues">
-        <div class="label">The cover’s colours, widest first</div>
+      <section class="board" id="board" aria-label="The cover's colours">
+        <div class="map" id="map"></div>
         <div class="row" id="row"></div>
-        <p class="readout" id="readout" aria-live="polite">Tap a colour to see its name and share.</p>
-
-        <div class="clues">
-          <div>
-            <div class="label">Where they sit</div>
-            <div class="map locked" id="map"></div>
-          </div>
-          <div class="facts" id="facts"></div>
-        </div>
       </section>
-
-      <div class="tries" id="tries" aria-hidden="true"></div>
+      <p class="status"><span id="status"></span><span id="readout" aria-live="polite"></span></p>
+      <div class="facts" id="facts"></div>
 
       <div class="entry" id="entry">
         <div class="entry-row">
@@ -243,21 +212,19 @@
     </main>
 
     <footer>
-      <p>A prototype. No cover art is shown or stored on this page, only nine colours worked out from each cover.</p>
-      <p>Game titles belong to their owners. This is an unofficial puzzle with no connection to them.</p>
-      <p>Your record stays in this browser.</p>
+      <p>A prototype. No cover art is shown or stored here, only nine colours worked out from each cover. Game titles belong to their owners; this is an unofficial puzzle. Your record stays in this browser.</p>
     </footer>
   </div>
 
   <dialog id="help">
     <h2>How to play</h2>
     <ol>
-      <li>The bar shows the nine main colours of a video game’s cover. A wider block means more of that colour.</li>
+      <li>The bar shows the nine main colours of a video game’s cover. A wider block means more of that colour. The small grid beside it shows roughly where those colours sit.</li>
       <li>Name the game. You have six tries.</li>
-      <li>Each miss or skip opens another clue: where the colours sit on the cover, then the year, platform, genre and the shape of the title.</li>
+      <li>Each miss or skip opens a clue: the year, the platform, the genre, then the shape of the title.</li>
       <li>A miss also tells you whether the answer came out earlier or later than your guess.</li>
     </ol>
-    <p>There is one puzzle a day. Use the arrows to play earlier ones.</p>
+    <p>There is one puzzle a day. Use the arrows to play others.</p>
     <button type="button" class="btn btn-go" data-close>Got it</button>
   </dialog>
 
@@ -335,10 +302,10 @@
       if (h >= 15 && h < 50 && (l < 0.4 || (l < 0.55 && s < 0.5))) return "🟫";
       return h < 15 || h >= 345 ? "🟥" : h < 45 ? "🟧" : h < 70 ? "🟨" : h < 165 ? "🟩" : h < 260 ? "🟦" : "🟪";
     }
-    function shape(title) {      // "Red Dead" -> "R__ D___"
+    function shape(title, more) {      // "Red Dead" -> "R__ D___", or with more: "R_d D_a_"
       return title.split(" ").map(function (w) {
-        var seen = false;
-        return w.replace(/[A-Za-zÀ-ÿ]/g, function (ch) { if (!seen) { seen = true; return ch.toUpperCase(); } return "_"; });
+        var n = 0;
+        return w.replace(/[A-Za-zÀ-ÿ]/g, function (ch) { n++; return n === 1 || (more && n % 2 === 1) ? ch : "_"; });
       }).join("  ");
     }
 
@@ -390,38 +357,27 @@
       });
 
       var map = $("map"); map.textContent = "";
-      if (open >= 1) {
-        map.className = "map";
-        map.style.aspectRatio = String(Math.min(1.5, Math.max(0.6, puzzle.r || 0.75)));
-        puzzle.m.forEach(function (k) {
-          var b = el("button", { type: "button", "aria-label": colourName(puzzle.c[k][0]) });
-          b.style.background = puzzle.c[k][0];
-          b.dataset.k = k;
-          b.addEventListener("click", function () { pick(k); });
-          map.appendChild(b);
-        });
-      } else {
-        map.className = "map locked";
-        map.style.aspectRatio = "";
-        map.textContent = "Opens after 1 miss";
-      }
+      map.style.aspectRatio = String(Math.min(1.35, Math.max(0.62, puzzle.r || 0.75)));
+      puzzle.m.forEach(function (k) {
+        var b = el("button", { type: "button", "aria-label": colourName(puzzle.c[k][0]) });
+        b.style.background = puzzle.c[k][0];
+        b.dataset.k = k;
+        b.addEventListener("click", function () { pick(k); });
+        map.appendChild(b);
+      });
       pick(picked, true);
 
+      // Text clues: one more after each miss. Only the open ones are shown.
+      var clues = [["year", String(puzzle.y)], ["platform", puzzle.p], ["genre", puzzle.g],
+                   ["title shape", shape(puzzle.t, false)], ["more of the title", shape(puzzle.t, true)]];
       var facts = $("facts"); facts.textContent = "";
-      [["Year", String(puzzle.y)], ["On", puzzle.p], ["Genre", puzzle.g], ["Title", shape(puzzle.t)]].forEach(function (f, n) {
-        var need = n + 2, shownNow = open >= need;
-        var d = el("div", { "class": "fact" + (shownNow ? "" : " locked") + (n === 3 && shownNow ? " wide" : "") });
-        d.appendChild(el("span", null, f[0]));
-        d.appendChild(el("b", null, shownNow ? f[1] : "after " + need + " misses"));
-        facts.appendChild(d);
+      clues.forEach(function (c, n) {
+        if (n >= open) return;
+        if (n === 3 && open > 4) return;               // the fuller title replaces the bare shape
+        facts.appendChild(el("span", { "class": "fact" + (n >= 3 ? " wide" : "") }, c[1]));
       });
-
-      var tries = $("tries"); tries.textContent = "";
-      for (var t = 0; t < MAX; t++) {
-        var hit = state.won && t === state.g.length - 1;
-        var cls = t < state.g.length ? (hit ? "hit" : "miss") : "";
-        tries.appendChild(el("i", cls ? { "class": cls } : null, t < state.g.length ? (hit ? "✓" : "✕") : String(t + 1)));
-      }
+      $("status").textContent = state.done ? ""
+        : "Try " + (state.g.length + 1) + " of " + MAX + (open < clues.length ? " · a miss opens the " + clues[open][0] : " · last try");
 
       var list = $("guesses"); list.textContent = "";
       state.g.slice().reverse().forEach(function (g, n) {
@@ -455,10 +411,8 @@
       Array.prototype.forEach.call($("row").children, function (b, n) { b.classList.toggle("on", n === k); });
       Array.prototype.forEach.call($("map").querySelectorAll("button"), function (b) { b.classList.toggle("on", Number(b.dataset.k) === k); });
       var r = $("readout");
-      if (k < 0 || !puzzle.c[k]) { if (!quiet) r.textContent = "Tap a colour to see its name and share."; return; }
-      r.textContent = "";
-      r.appendChild(el("b", null, colourName(puzzle.c[k][0])));
-      r.appendChild(document.createTextNode(" · about " + Math.max(1, Math.round(puzzle.c[k][1] * 100)) + "% of the cover"));
+      if (k < 0 || !puzzle.c[k]) { r.textContent = ""; return; }
+      r.textContent = colourName(puzzle.c[k][0]) + " · " + Math.max(1, Math.round(puzzle.c[k][1] * 100)) + "%";
     }
 
     // ---- guessing ----
@@ -496,7 +450,13 @@
       shown = names.filter(function (n) {
         if (state.g.indexOf(n.t) !== -1) return false;
         return n.keys.some(function (k) { return q.every(function (w) { return k.indexOf(w) !== -1; }); });
-      }).slice(0, 6);
+      });
+      // Titles with a word that starts with what was typed come first.
+      var lead = q[0];
+      function rank(n) { return n.t.split(/[^A-Za-z0-9À-ÿ]+/).some(function (w) { return norm(w).indexOf(lead) === 0; }) ? 0 : 1; }
+      shown = shown.map(function (n, i) { return [rank(n), i, n]; })
+        .sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; })
+        .slice(0, 4).map(function (x) { return x[2]; });
       if (!shown.length) { closeList(); $("hint").textContent = "No game in the list matches that."; return; }
       shown.forEach(function (n, k) {
         var li = el("li", { role: "option", id: "opt-" + k, "aria-selected": "false" }, n.t);
@@ -524,7 +484,18 @@
         submit();
       }
     });
-    $("guess").addEventListener("blur", function () { setTimeout(closeList, 150); });
+    // Phone keyboards cover the lower half of the screen: bring the colours,
+    // the box and its suggestions up above it.
+    $("guess").addEventListener("focus", function () {
+      document.querySelector("main").classList.add("typing");
+      setTimeout(function () { $("board").scrollIntoView({ block: "start", behavior: "smooth" }); }, 250);
+    });
+    $("guess").addEventListener("blur", function () {
+      setTimeout(function () {
+        if (document.activeElement === $("guess")) return;
+        closeList(); document.querySelector("main").classList.remove("typing");
+      }, 150);
+    });
     $("go").addEventListener("click", submit);
     $("skip").addEventListener("click", function () { commit(""); });
 
