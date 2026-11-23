@@ -30,6 +30,17 @@ Private software, risen from the deep. Expect it to mutate.
   repo with `npm run deploy:site`. Don't hand-edit: every deploy replaces it.
   Its card lives in `games/index.html`.
 
+- `games/huedunnit/` — Huedunnit, a daily puzzle: name a video game from nine
+  colours taken from its cover. Hand-written, one self-contained `index.html`
+  plus `puzzles.js`. No cover art is stored or shown, only colour values.
+  Its card lives in `games/index.html`.
+- `tools/huedunnit/` — builds `games/huedunnit/puzzles.js`. `games.tsv` is the
+  list of games and their text clues; `build.py` reads each cover from
+  Wikipedia once and writes only the colours. To add games, edit `games.tsv`
+  and run `python3 -I tools/huedunnit/build.py <cache-dir>` (needs Pillow and
+  numpy; keep the cache folder outside the repo). The first three rows stay
+  as puzzles 1 to 3; the rest are shuffled in a fixed order.
+
 ## The logo
 
 The mark is a classic, symmetric squid: finned mantle, two eyes, three arms

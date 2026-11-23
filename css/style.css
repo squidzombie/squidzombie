@@ -1388,6 +1388,7 @@ body {
 .case-flow { --tone: 255, 138, 61; --tone-ink: #ffb27a; }
 .case-squid { --tone: 138, 108, 255; --tone-ink: #b3a2ff; }
 .case-imhit { --tone: 255, 122, 26; --tone-ink: #ffa866; }   /* the test dummy's safety orange */
+.case-hue { --tone: 61, 251, 216; --tone-ink: #7dfce5; }
 
 .case-flip { grid-template-columns: 1.05fr 1fr; }
 .case-flip .case-visual { order: -1; }
@@ -1537,6 +1538,24 @@ body {
 .case:hover .windows { --step-x: 36px; --step-y: 28px; }
 .case:hover .windows img { filter: brightness(calc(0.62 + var(--i) * 0.13)); }
 
+/* Huedunnit: three palette bars, fanned like paint cards */
+.swatches { height: 300px; display: grid; place-content: center; gap: 14px; }
+
+.swatch-bar {
+  position: relative;
+  display: flex;
+  width: min(340px, 72vw);
+  height: 62px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px -22px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.swatch-bar:nth-child(1) { transform: rotate(-4deg) translateX(-10px); }
+.swatch-bar:nth-child(3) { transform: rotate(3deg) translateX(12px); }
+.case:hover .swatch-bar { transform: none; }
+
 /* Squid: the live ledger from the Work page (positioned so it paints
    above the visual's glow) */
 .case-squid .ledger { position: relative; }
@@ -1662,5 +1681,5 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .seal-ring, .seal-squid, .now-dot, .mini-road .now { animation: none; }
-  .case-visual img, .case-cta .arrow, .tenet { transition: none; }
+  .case-visual img, .swatch-bar, .case-cta .arrow, .tenet { transition: none; }
 }
