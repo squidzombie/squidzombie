@@ -80,7 +80,7 @@
       height: 100%; border-radius: 10px; overflow: hidden;
     }
     .row { display: flex; flex: 1; min-width: 0; border-radius: 10px; overflow: hidden; }
-    .row button, .map button { border: 0; padding: 0; min-width: 0; position: relative; }
+    .row button, .map button { border: 0; padding: 0; min-width: 0; min-height: 0; position: relative; }
     .row button.on::after, .map button.on::after {
       content: ""; position: absolute; inset: 3px; border-radius: 6px;
       border: 2px solid #fff; box-shadow: 0 0 0 2px #000 inset, 0 0 0 1px #000;
@@ -221,7 +221,7 @@
     <ol>
       <li>The bar shows the nine main colours of a video game’s cover. A wider block means more of that colour. The small grid beside it shows roughly where those colours sit.</li>
       <li>Name the game. You have six tries.</li>
-      <li>Each miss or skip opens a clue: the year, the platform, the genre, then the shape of the title.</li>
+      <li>Each miss or skip opens a clue: a sharper map with four times the squares, then the year, the platform, the genre and part of the title.</li>
       <li>A miss also tells you whether the answer came out earlier or later than your guess.</li>
     </ol>
     <p>There is one puzzle a day. Use the arrows to play others.</p>
@@ -358,7 +358,11 @@
 
       var map = $("map"); map.textContent = "";
       map.style.aspectRatio = String(Math.min(1.35, Math.max(0.62, puzzle.r || 0.75)));
-      puzzle.m.forEach(function (k) {
+      // The map starts as 3x3. The first miss opens a finer 6x6 one.
+      var fine = open >= 1 && puzzle.f;
+      var cells = fine ? puzzle.f.split("").map(Number) : puzzle.m;
+      map.style.gridTemplateColumns = "repeat(" + (fine ? 6 : 3) + ", 1fr)";
+      cells.forEach(function (k) {
         var b = el("button", { type: "button", "aria-label": colourName(puzzle.c[k][0]) });
         b.style.background = puzzle.c[k][0];
         b.dataset.k = k;
@@ -368,16 +372,15 @@
       pick(picked, true);
 
       // Text clues: one more after each miss. Only the open ones are shown.
-      var clues = [["year", String(puzzle.y)], ["platform", puzzle.p], ["genre", puzzle.g],
-                   ["title shape", shape(puzzle.t, false)], ["more of the title", shape(puzzle.t, true)]];
+      var clues = [["a sharper map", null], ["the year", String(puzzle.y)], ["the platform", puzzle.p],
+                   ["the genre", puzzle.g], ["part of the title", shape(puzzle.t, true)]];
       var facts = $("facts"); facts.textContent = "";
       clues.forEach(function (c, n) {
-        if (n >= open) return;
-        if (n === 3 && open > 4) return;               // the fuller title replaces the bare shape
-        facts.appendChild(el("span", { "class": "fact" + (n >= 3 ? " wide" : "") }, c[1]));
+        if (n >= open || c[1] == null) return;
+        facts.appendChild(el("span", { "class": "fact" + (n === 4 ? " wide" : "") }, c[1]));
       });
       $("status").textContent = state.done ? ""
-        : "Try " + (state.g.length + 1) + " of " + MAX + (open < clues.length ? " · a miss opens the " + clues[open][0] : " · last try");
+        : "Try " + (state.g.length + 1) + " of " + MAX + (open < clues.length ? " · a miss opens " + clues[open][0] : " · last try");
 
       var list = $("guesses"); list.textContent = "";
       state.g.slice().reverse().forEach(function (g, n) {
@@ -425,7 +428,10 @@
       save();
       $("guess").value = ""; closeList(); $("hint").textContent = "";
       render();
-      if (!state.done) $("guess").focus();
+      // On a phone, put the keyboard away so the new clue shows at full size.
+      // With a mouse and keyboard, stay in the box ready for the next guess.
+      if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) $("guess").blur();
+      else if (!state.done) $("guess").focus();
     }
     function submit() {
       var raw = $("guess").value.trim();
