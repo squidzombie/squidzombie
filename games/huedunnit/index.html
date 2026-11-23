@@ -545,7 +545,11 @@
       function copied() { note.style.color = "var(--ink-dim)"; note.textContent = "Copied. Paste it anywhere."; }
       function failed() { note.style.color = ""; note.textContent = "Couldn’t copy. Select this instead: " + text.replace(/\n/g, " "); }
       if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
-        navigator.share({ text: text }).catch(function () {});
+        navigator.share({ text: text }).catch(function (e) {
+          if (e && e.name === "AbortError") return;          // they closed the share sheet
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(copied, failed);
+          else failed();
+        });
       } else if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(copied, failed);
       } else { failed(); }
