@@ -74,14 +74,16 @@
 
     /* ---- the colours: a small map of the cover beside the bar ---- */
     .board { display: flex; gap: 0.5rem; height: 6rem; scroll-margin-top: 0.5rem; }
-    .typing .board { height: 4rem; }          /* leave room for suggestions above a phone keyboard */
+    .board.big { height: 11rem; }             /* the last clue: a 12x12 map needs room */
+    .typing .board, .typing .board.big { height: 4rem; }          /* leave room for suggestions above a phone keyboard */
     .map {
       display: grid; grid-template-columns: repeat(3, 1fr); flex: none;
       height: 100%; border-radius: 10px; overflow: hidden;
     }
     .row { display: flex; flex: 1; min-width: 0; border-radius: 10px; overflow: hidden; }
-    .row button, .map button { border: 0; padding: 0; min-width: 0; min-height: 0; position: relative; }
-    .row button.on::after, .map button.on::after {
+    .row button { border: 0; padding: 0; min-width: 0; position: relative; }
+    .map div { min-width: 0; min-height: 0; }
+    .row button.on::after {
       content: ""; position: absolute; inset: 3px; border-radius: 6px;
       border: 2px solid #fff; box-shadow: 0 0 0 2px #000 inset, 0 0 0 1px #000;
     }
@@ -179,7 +181,7 @@
 
     <main>
       <section class="board" id="board" aria-label="The cover's colours">
-        <div class="map" id="map"></div>
+        <div class="map" id="map" role="img" aria-label="A rough map of where the colours sit on the cover"></div>
         <div class="row" id="row"></div>
       </section>
       <p class="status"><span id="status"></span><span id="readout" aria-live="polite"></span></p>
@@ -221,7 +223,7 @@
     <ol>
       <li>The bar shows the nine main colours of a video game’s cover. A wider block means more of that colour. The small grid beside it shows roughly where those colours sit.</li>
       <li>Name the game. You have six tries.</li>
-      <li>Each miss or skip opens a clue: a sharper map with four times the squares, then the year, the platform, the genre and part of the title.</li>
+      <li>Each miss or skip opens a clue: a sharper map, the year and platform, the genre, part of the title, and last a map sharper again.</li>
       <li>A miss also tells you whether the answer came out earlier or later than your guess.</li>
     </ol>
     <p>There is one puzzle a day. Use the arrows to play others.</p>
@@ -358,26 +360,26 @@
 
       var map = $("map"); map.textContent = "";
       map.style.aspectRatio = String(Math.min(1.35, Math.max(0.62, puzzle.r || 0.75)));
-      // The map starts as 3x3. The first miss opens a finer 6x6 one.
-      var fine = open >= 1 && puzzle.f;
-      var cells = fine ? puzzle.f.split("").map(Number) : puzzle.m;
-      map.style.gridTemplateColumns = "repeat(" + (fine ? 6 : 3) + ", 1fr)";
-      cells.forEach(function (k) {
-        var b = el("button", { type: "button", "aria-label": colourName(puzzle.c[k][0]) });
-        b.style.background = puzzle.c[k][0];
-        b.dataset.k = k;
-        b.addEventListener("click", function () { pick(k); });
-        map.appendChild(b);
+      // The map starts as 3x3. The first miss opens 6x6, the last clue 12x12.
+      var level = open >= 5 ? 2 : open >= 1 ? 1 : 0;
+      var side = [3, 6, 12][level];
+      map.style.gridTemplateColumns = "repeat(" + side + ", 1fr)";
+      (puzzle.m[level].match(/.{6}/g) || []).forEach(function (hex) {
+        var d = el("div");
+        d.style.background = "#" + hex;
+        d.dataset.hex = "#" + hex;
+        map.appendChild(d);
       });
+      $("board").classList.toggle("big", level === 2);
       pick(picked, true);
 
       // Text clues: one more after each miss. Only the open ones are shown.
-      var clues = [["a sharper map", null], ["the year", String(puzzle.y)], ["the platform", puzzle.p],
-                   ["the genre", puzzle.g], ["part of the title", shape(puzzle.t, true)]];
+      var clues = [["a sharper map", []], ["the year and platform", [String(puzzle.y), puzzle.p]],
+                   ["the genre", [puzzle.g]], ["part of the title", [shape(puzzle.t, true)]], ["the sharpest map", []]];
       var facts = $("facts"); facts.textContent = "";
       clues.forEach(function (c, n) {
-        if (n >= open || c[1] == null) return;
-        facts.appendChild(el("span", { "class": "fact" + (n === 4 ? " wide" : "") }, c[1]));
+        if (n >= open) return;
+        c[1].forEach(function (text) { facts.appendChild(el("span", { "class": "fact" + (n === 3 ? " wide" : "") }, text)); });
       });
       $("status").textContent = state.done ? ""
         : "Try " + (state.g.length + 1) + " of " + MAX + (open < clues.length ? " · a miss opens " + clues[open][0] : " · last try");
@@ -412,11 +414,18 @@
     function pick(k, quiet) {
       picked = k;
       Array.prototype.forEach.call($("row").children, function (b, n) { b.classList.toggle("on", n === k); });
-      Array.prototype.forEach.call($("map").querySelectorAll("button"), function (b) { b.classList.toggle("on", Number(b.dataset.k) === k); });
       var r = $("readout");
       if (k < 0 || !puzzle.c[k]) { r.textContent = ""; return; }
       r.textContent = colourName(puzzle.c[k][0]) + " · " + Math.max(1, Math.round(puzzle.c[k][1] * 100)) + "%";
     }
+
+    // Tapping a square of the map names its colour.
+    $("map").addEventListener("click", function (e) {
+      var hex = e.target && e.target.dataset && e.target.dataset.hex;
+      if (!hex) return;
+      pick(-1, true);
+      $("readout").textContent = colourName(hex);
+    });
 
     // ---- guessing ----
     function commit(guess) {

@@ -32,7 +32,9 @@ Private software, risen from the deep. Expect it to mutate.
 
 - `games/huedunnit/` — Huedunnit, a daily puzzle: name a video game from nine
   colours taken from its cover. Hand-written, one self-contained `index.html`
-  plus `puzzles.js`. No cover art is stored or shown, only colour values.
+  plus `puzzles.js`. No cover image is stored or shown, only colour values:
+  nine for the bar, and maps of 3x3, 6x6 and 12x12 flat squares. The 12x12
+  map is the last clue and the closest the game gets to the artwork.
   Its card lives in `games/index.html`.
 - `tools/huedunnit/` — builds `games/huedunnit/puzzles.js`. `games.tsv` is the
   list of games and their text clues; `build.py` reads each cover from
